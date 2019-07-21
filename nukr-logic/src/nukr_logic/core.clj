@@ -5,12 +5,21 @@
   [x]
   (println x "Hello, World!"))
 
-(defn add-profile
-   [profile-vector new-profile]
-   (conj profile-vector 
+(defn add-profile-x
+   [profile-map new-profile]
+   (conj profile-map 
          (assoc new-profile 
                 :connections [])
          ))
+
+(defn newkey [] (.toString (java.util.UUID/randomUUID)))
+
+(defn add-profile
+  [profile-map new-profile]
+  (assoc profile-map
+         (newkey)
+         (assoc new-profile
+                :connections [])))
  
  (defn add-to-profile-connection-id-vector
    [target-profile source-profile-id]
@@ -21,15 +30,16 @@
            source-profile-id))
    )
  
- (defn connect-from-to [profile-vector source-profile-id target-profile-id]
-   (assoc profile-vector source-profile-id 
+ (defn connect-from-to [profile-map source-profile-id target-profile-id]
+   (assoc profile-map 
+          source-profile-id 
           (add-to-profile-connection-id-vector 
-           (get profile-vector source-profile-id) target-profile-id))
+           (get profile-map source-profile-id) target-profile-id))
    )
 
-(defn connect [profile-vector profile1-id profile2-id]
+(defn connect [profile-map profile1-id profile2-id]
   (connect-from-to
    (connect-from-to
-    profile-vector
+    profile-map
     profile1-id profile2-id) profile2-id profile1-id)
   )
