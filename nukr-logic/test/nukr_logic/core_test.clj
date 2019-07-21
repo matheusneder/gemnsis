@@ -19,14 +19,14 @@
            ;; actual
            (-> result keys last))
           ;; assertion failure message
-          "profile key not match")
+          "FIXME, profile key not match.")
       (is (= 
            ;; expected
            (assoc new-profile-data :connections [])
            ;; actual
            (-> result vals last))
           ;; assertion failure message
-          "profile data not match"))))
+          "FIXME, profile data not match."))))
 
 (deftest add-profile-duplicated-key-error-test
   (testing "add-profile-duplicated-key-error-test"
@@ -43,7 +43,7 @@
           ;; new item data
           {:name "Bar" :visible false}))
         ;; assertion failure message
-        "didnt get failed on duplicated profile key")))
+        "FIXME, didnt get failed on duplicated profile key.")))
 
 (deftest validate-profile-name-test
   (testing "validate-profile-name"
@@ -53,7 +53,7 @@
          ;; actual
          (validate-profile-name {:name "A Valid Name"}))
         ;; assertion failure message
-        "validation for 'A Valid Name' failed.")))
+        "FIXME, validation for 'A Valid Name' failed.")))
 
 (deftest validate-profile-name-error-blank
   (testing "validate-profile-name-error-blank"
@@ -63,7 +63,7 @@
          ;; actual
          (-> (validate-profile-name {:name "  "}) :errors))
         ;; assertion failure message
-        "Provided a blank name but blank-name error reason could
+        "FIXME, provided a blank name but blank-name error reason could
 not be found.")
     ))
 
@@ -75,7 +75,7 @@ not be found.")
          ;; actual
          (-> (validate-profile-name {:name "Ab"}) :errors))
         ;; assertion failure message
-        "Provided a invalid name but invalid-name error reason could
+        "FIXME, provided a invalid name but invalid-name error reason could
 not be found.")))
 
 (def profile-map-example
