@@ -5,21 +5,15 @@
   [x]
   (println x "Hello, World!"))
 
-(defn add-profile-x
-   [profile-map new-profile]
-   (conj profile-map 
-         (assoc new-profile 
-                :connections [])
-         ))
+(def duplicated-profile-key-error "duplicated-profile-key-error")
 
-(defn newkey [] (.toString (java.util.UUID/randomUUID)))
-
-(defn add-profile
-  [profile-map new-profile]
-  (assoc profile-map
-         (newkey)
-         (assoc new-profile
-                :connections [])))
+(defn add-profile 
+  [profile-map key data]
+  (if (contains? profile-map key)
+    [nil 'duplicated-profile-key-error]
+    (assoc profile-map key 
+           (assoc data
+                  :connections []))))
  
  (defn add-to-profile-connection-id-vector
    [target-profile source-profile-id]
