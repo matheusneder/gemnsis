@@ -9,18 +9,18 @@
 
 (def profile-validation-errors
   {:duplicated-key
-   {:code "profile-duplicated-key"
-    :message "Profile key must be unique."}
+   {:key "profile-duplicated-key"
+    :msg "Profile key must be unique."}
    :blank-name
-   {:code "profile-blank-name"
-    :message "The field name must not be blank."}
+   {:key "profile-blank-name"
+    :msg "The field \"name\" is required."}
    :invalid-name
-   {:code "invalid-profile-name"
-    :message "Profile name must contais only letters 
+   {:key "invalid-profile-name"
+    :msg "Profile name must contais only letters 
 and it must has at least 3 letters and max of 50 letters."}
    :duplicated-name
-   {:code "profile-duplicated-name"
-    :message "The profile name has already been 
+   {:key "profile-duplicated-name"
+    :msg "The profile name has already been 
 taken for another person, please, choose another."}})
 
 (defn add-error-reason [data error-reason]
