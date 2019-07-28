@@ -4,6 +4,9 @@
             [nukr.logic :as logic]))
 
 (defn add-profile!
+  "Add a new profile to network.
+   Input model is: { :name string :email string :suggestible bool (optional, default true) }.
+   Returns { :id uuid :name string :email string :suggestigle bool }."
   [add-profile-dto]
   (let [profile-model (logic/new-profile add-profile-dto)]
     (database/add-profile! profile-model)

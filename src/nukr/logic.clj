@@ -27,7 +27,8 @@
                           profile1-id (connect-single profile1-model profile2-id)
                           profile2-id (connect-single profile2-model profile1-id))))))
 
-(defn sort-by-conn-count-desc
+(defn get-degree-sequence
+  "Degree sequence is profile list descending ordered by connection count."
   [profiles]
   (sort-by (fn [item] (* -1 (count (:connections item))))
            (vals profiles)))
@@ -48,6 +49,6 @@
   [network profile-id]
   (let [profiles (:profiles network)
         profile (get profiles profile-id)
-        rank (sort-by-conn-count-desc profiles)]
+        rank (get-degree-sequence profiles)]
     (filter 
      #(suggestion-conditions % profile) rank)))

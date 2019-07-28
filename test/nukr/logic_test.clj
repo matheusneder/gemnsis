@@ -63,7 +63,7 @@
                          :connections '("2" "3" "4" "6" "7" "8")}}})
 
 (deftest get-suggestions-test
-  (testing "login/get-suggestions"
+  (testing "logic/get-suggestions"
     (let [result (logic/get-suggestions network-mock "3")]
       (is (= "2" (-> result first :id))
           "FIXME")

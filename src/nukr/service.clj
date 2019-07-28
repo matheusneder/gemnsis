@@ -97,7 +97,7 @@
               ;;  This can also be your own chain provider/server-fn -- http://pedestal.io/reference/architecture-overview#_chain_provider
               ::http/type :jetty
               ::http/host "0.0.0.0"
-              ::http/port 8081
+              ::http/port 9000
               ;; Options to pass to the container (Jetty)
               ::http/container-options {:h2c? true
                                         :h2? false
