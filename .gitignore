@@ -12,5 +12,4 @@ checkouts/
 .cpcache/
 .hg/
 .hgignore
-.nrepl-port
 profiles.clj
