@@ -13,3 +13,4 @@ checkouts/
 .hg/
 .hgignore
 profiles.clj
+logs/
