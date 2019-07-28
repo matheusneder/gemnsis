@@ -1,8 +1,9 @@
 (ns nukr.service-test
-  (:require [clojure.test :refer :all]
-            [io.pedestal.test :refer :all]
-            [io.pedestal.http :as bootstrap]
-            [nukr.service :as service]))
+  (:require 
+   [clojure.test :refer :all]
+   [io.pedestal.test :refer :all]
+   [io.pedestal.http :as bootstrap]
+   [nukr.service :as service]))
 
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet service/service)))

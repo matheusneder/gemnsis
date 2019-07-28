@@ -1,10 +1,11 @@
 (ns nukr.service
-  (:require [io.pedestal.http :as http]
-            [io.pedestal.http.route :as route]
-            [io.pedestal.http.body-params :as body-params]
-            [ring.util.response :as ring-resp]
-            [io.pedestal.log :as log]
-            [nukr.controller :as controller]))
+  (:require 
+   [io.pedestal.http :as http]
+   [io.pedestal.http.route :as route]
+   [io.pedestal.http.body-params :as body-params]
+   [ring.util.response :as ring-resp]
+   [io.pedestal.log :as log]
+   [nukr.controller :as controller]))
 
 (defn about-page
   [request]
@@ -33,11 +34,20 @@
                        (-> request :path-params :id) 
                        (-> request :json-params :id))))
 
-(defn get-connection-suggestions
+(defn get-suggestions
+  "Get connection suggestions for a given profile-id.
+   Input  model is: {:id uuid} (from route path);
+   Output model is:
+     HTTP 200: {:id uuid :name string};
+     HTTP 400: {:errors '({:key profile-not-found})}"  
   [request]
   (log/info :msg request)
-  (ring-resp/response (controller/get-connection-suggestions
-                       (-> request :path-params :id))))
+  (let [result (controller/get-suggestions
+                (-> request :path-params :id))]
+    (if
+     (:errors result)
+      (ring-resp/bad-request result)
+      (ring-resp/response result))))
 
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
@@ -48,7 +58,7 @@
 (def routes #{["/v1" :get (conj common-interceptors `dump-database)]
               ["/v1" :delete (conj common-interceptors `reset-database)]
               ["/v1/profiles" :post (conj common-interceptors `post-profiles)]
-              ["/v1/profiles/:id/connection-suggestions" :get (conj common-interceptors `get-connection-suggestions)]
+              ["/v1/profiles/:id/suggestions" :get (conj common-interceptors `get-suggestions)]
               ["/v1/profiles/:id/connections" :post (conj common-interceptors `post-profile-connections)]})
 
 

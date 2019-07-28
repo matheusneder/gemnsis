@@ -1,6 +1,7 @@
 (ns nukr.controller-test-data
-  (:require [clojure.test :refer :all]
-            [nukr.controller :as controller]))
+  (:require 
+   [clojure.test :refer :all]
+   [nukr.controller :as controller]))
 
 (defn build-startup-network
   []

@@ -30,7 +30,7 @@
 (defn get-degree-sequence
   "Degree sequence is profile list descending ordered by connection count."
   [profiles]
-  (sort-by (fn [item] (* -1 (count (:connections item))))
+  (sort-by #(* -1 (count (:connections %)))
            (vals profiles)))
 
 (defn suggestion-conditions
@@ -45,10 +45,23 @@
      ;; is not already connected to
      (not (some #(= (:id item) %) connections)))))
 
+(def core-error
+  {:profile-not-found
+   {:key "profile-not-found"
+    :msg "The given profile was not found."}})
+
 (defn get-suggestions
+  "Get connections suggestions for a given profile-id."
   [network profile-id]
   (let [profiles (:profiles network)
         profile (get profiles profile-id)
         rank (get-degree-sequence profiles)]
-    (filter 
-     #(suggestion-conditions % profile) rank)))
+    (if
+     (nil? profile)
+      ;; the given profile-id NOT found
+      {:errors [(:profile-not-found core-error)]}
+      ;; the given profile-id is valid, so
+      ;; will get suggestions for it.
+      (->> rank
+           (filter #(suggestion-conditions % profile))
+           (map #(select-keys % [:id :name]))))))

@@ -1,6 +1,8 @@
 (ns nukr.logic-test
-  (:require [clojure.test :refer :all]
-            [nukr.logic :as logic]))
+  (:require 
+   [clojure.test :refer :all]
+   [nukr.logic :as logic]
+   [clojure.tools.logging :as log]))
 
 (deftest connect-single-test
   (testing "logic/connect-single"
@@ -62,9 +64,19 @@
                          :suggestible false
                          :connections '("2" "3" "4" "6" "7" "8")}}})
 
+(deftest get-degree-sequence-test
+  (testing "logic/get-degree-sequence"
+    (let [result (logic/get-degree-sequence (:profiles network-mock))]
+      (log/info "get-degree-sequence-test" result)
+      (is (= "9" (-> result first :id))
+          "FIXME")
+      (is (= "5" (-> result last :id))
+          "FIXME"))))
+
 (deftest get-suggestions-test
   (testing "logic/get-suggestions"
     (let [result (logic/get-suggestions network-mock "3")]
+      (log/info "get-suggestions-test" result)
       (is (= "2" (-> result first :id))
           "FIXME")
       (is (= "5" (-> result last :id))
