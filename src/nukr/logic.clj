@@ -22,10 +22,13 @@
         profile1-model (-> profiles (get profile1-id))
         profile2-model (-> profiles (get profile2-id))]
     (assoc network
-           :profiles (-> profiles
-                         (assoc
-                          profile1-id (connect-single profile1-model profile2-id)
-                          profile2-id (connect-single profile2-model profile1-id))))))
+           :profiles 
+           (-> profiles
+               (assoc
+                profile1-id
+                (connect-single profile1-model profile2-id)
+                profile2-id
+                (connect-single profile2-model profile1-id))))))
 
 (defn get-degree-sequence
   "Degree sequence is profile list descending ordered by connection count."
@@ -62,6 +65,17 @@
       {:errors [(:profile-not-found core-error)]}
       ;; the given profile-id is valid, so
       ;; will get suggestions for it.
-      (->> rank
-           (filter #(suggestion-conditions % profile))
-           (map #(select-keys % [:id :name]))))))
+      (filter #(suggestion-conditions % profile) rank))))
+
+(defn get-profile-connections
+  "Get connections for a given profile"
+  [network profile-id]
+  (let [profiles (:profiles network)
+        profile (get profiles profile-id)]
+    (if
+     (nil? profile)
+      ;; the given profile-id NOT found
+      {:errors [(:profile-not-found core-error)]}
+      ;; the given profile-id is valid, so
+      (map #(get profiles %) (:connections profile)))))
+  

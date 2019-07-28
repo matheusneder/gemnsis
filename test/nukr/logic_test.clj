@@ -81,3 +81,12 @@
           "FIXME")
       (is (= "5" (-> result last :id))
           "FIXME"))))
+
+(deftest get-profile-connections-test
+  (testing "logic/get-profile-connections"
+    (let [result (logic/get-profile-connections network-mock "9")]
+      (log/info "get-profile-connections-test" result)
+      (is (=
+           (-> network-mock :profiles (get "9") :connections)
+           (map #(:id %) result))
+          "FIXME"))))

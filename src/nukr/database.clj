@@ -19,7 +19,7 @@
 
 (defn read-profile
   [profile-id]
-  (get @database profile-id))
+  (get (:profiles @database) profile-id))
 
 (defn connect!
   [connect-fn profile1-id profile2-id]
