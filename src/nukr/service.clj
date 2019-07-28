@@ -36,10 +36,11 @@
 
 (defn get-suggestions
   "Get connection suggestions for a given profile-id.
-   Input  model is: {:id uuid} (from route path);
+   Input  model is: {:id uuid} (from request path-params);
    Output model is:
-     HTTP 200: {:id uuid :name string};
-     HTTP 400: {:errors '({:key profile-not-found})}"  
+     HTTP 200: '({:id uuid :name string});
+     -or-
+     HTTP 400: {:errors '({:key profile-not-found})}"
   [request]
   (log/info :msg request)
   (let [result (controller/get-suggestions
@@ -48,6 +49,19 @@
      (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/response result))))
+
+(defn get-profiles
+  "Get profiles
+   Input  model is: {:items-per-page int (optional deafault 10
+                     :page int (optional default 1))} (from 
+                    request query-params);
+   Output model is: 
+     HTTP 200: '({:id uuid :name string})"
+  [request]
+  (let [result 
+        (controller/get-profiles (:query-params request))]
+    (log/info :msg result)
+    (ring-resp/response result)))
 
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
@@ -58,6 +72,7 @@
 (def routes #{["/v1" :get (conj common-interceptors `dump-database)]
               ["/v1" :delete (conj common-interceptors `reset-database)]
               ["/v1/profiles" :post (conj common-interceptors `post-profiles)]
+              ["/v1/profiles" :get (conj common-interceptors `get-profiles)]
               ["/v1/profiles/:id/suggestions" :get (conj common-interceptors `get-suggestions)]
               ["/v1/profiles/:id/connections" :post (conj common-interceptors `post-profile-connections)]})
 
