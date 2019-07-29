@@ -26,10 +26,10 @@ POST /v1/profiles
 
 #### Profile
 
-| Name        | Type     | Required/Default | Description                                                                             | Note                      |
+| Name        | Type     | Required/default | Description                                                                             | Note                      |
 |-------------|----------|------------------|-----------------------------------------------------------------------------------------|---------------------------|
 | name        | `string` | yes              | Profile's name                                                                          | -                         |
-| email       | `string` | yes              | Profile's e-mail                                                                        | Unique for entire network |
+| email       | `string` | yes              | Profile's e-mail                                                                        | Unique |
 | suggestible | `bool`   | no/`true`        | Case true, profile will be shown in connection suggestions. If false, it will be hidden | -                         |
 
 **Example**
