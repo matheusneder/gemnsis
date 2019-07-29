@@ -22,9 +22,9 @@ POST /v1/profiles
 |---------|---------|----------|--------------------|
 | profile | Profile | body     | `application/json` |
 
-#### Models
+### Models
 
-**Profile**
+#### Profile
 
 | Name        | Type     | Required | Description                                                                              | Default |
 |-------------|----------|----------|------------------------------------------------------------------------------------------|---------|
