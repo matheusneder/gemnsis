@@ -18,9 +18,9 @@ FIXME
 POST /v1/profiles
 ```
 ##### Parameters
-| name    | type    | location | content-type       |
-|---------|---------|----------|--------------------|
-| profile | Profile | body     | `application/json` |
+| name    | type                | location |
+|---------|---------------------|----------|
+| profile | [Profile](#profile) | body*    |
 
 ### Models
 
