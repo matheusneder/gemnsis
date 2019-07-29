@@ -17,7 +17,14 @@
 
 (defn connect-profiles!
   [profile1-id profile2-id]
-  (database/connect! logic/connect profile1-id profile2-id))
+  (let [preconditions
+        (logic/connecting-check-preconditions
+         (database/read-all)
+         profile1-id
+         profile2-id)]
+    (if (contains? preconditions :errors)
+      preconditions
+      (database/connect! logic/connect profile1-id profile2-id))))
 
 (defn limit
   "If val greater than max, return max; 
@@ -120,10 +127,12 @@
                      --or--
                      {:errors '({:key profile-not-found})}"
   [profile-id paginate-params]
-  (let [suggestions (logic/get-suggestions (database/read-all) profile-id)]
-    (->> suggestions
-         profile-sintetic-projection
-         (paginate paginate-params))))
+  (let [result (logic/get-suggestions (database/read-all) profile-id)]
+    (if (:errors result)
+      result
+      (->> result
+           profile-sintetic-projection
+           (paginate paginate-params)))))
 
 (defn get-profile-connections
   "Get connections for a given profile-id.
@@ -144,9 +153,11 @@
   [profile-id paginate-params]
   (let [result (logic/get-profile-connections 
                 (database/read-all) profile-id)]
-    (->> result
-         profile-sintetic-projection
-         (paginate paginate-params))))
+    (if (:errors result)
+      result
+      (->> result
+           profile-sintetic-projection
+           (paginate paginate-params)))))
 
 (defn get-profile-details
   "Get connections for a given profile-id.
@@ -167,6 +178,7 @@
        :name (:name result)
        :email (:email result)
        :suggestible (:suggestible result)
+       :created-at (:created-at result)
        :connections (count (:connections result))})))
 
 (defn reset-database

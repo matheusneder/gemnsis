@@ -30,9 +30,13 @@
 (defn post-profile-connections
   [request]
   (log/info :msg request)
-  (ring-resp/response (controller/connect-profiles! 
-                       (-> request :path-params :id) 
-                       (-> request :json-params :id))))
+  (let [result (controller/connect-profiles!
+                (-> request :path-params :id)
+                (-> request :json-params :id))]
+    (if
+     (:errors result)
+      (ring-resp/bad-request result)
+      (ring-resp/response result))))
 
 (defn get-suggestions
   "Get connection suggestions for a given profile-id.

@@ -9,203 +9,203 @@
   ;; name taken from https://www.randomlists.com/
   (let [jon-bentley (controller/add-profile!
                      {:name "Jon Bentley"
-                      :email "jon.bentley@email.com"
+                      :email "jon.bentley@nukr.com"
                       :suggestible false})
         zaria-wise (controller/add-profile!
                     {:name "Zaria Wise"
-                     :email "zaria.wise@email.com"
+                     :email "zaria.wise@nukr.com"
                      :suggestible true})
         cadence-goodman (controller/add-profile!
                          {:name "Cadence Goodman"
-                          :email "cadence.goodman@email.com"
+                          :email "cadence.goodman@nukr.com"
                           :suggestible false})
         hayden-odom (controller/add-profile!
                      {:name "Hayden Odom"
-                      :email "hayden.odom@email.com"
+                      :email "hayden.odom@nukr.com"
                       :suggestible true})
         jocelyn-larson (controller/add-profile!
                         {:name "Jocelyn Larson"
-                         :email "jocelyn.larson@email.com"
+                         :email "jocelyn.larson@nukr.com"
                          :suggestible true})
         tyshawn-diaz (controller/add-profile!
                       {:name "Tyshawn Diaz"
-                       :email "tyshawn.diaz@email.com"
+                       :email "tyshawn.diaz@nukr.com"
                        :suggestible true})
         luz-richardson (controller/add-profile!
                         {:name "Luz Richardson"
-                         :email "luz.richardson@email.com"
+                         :email "luz.richardson@nukr.com"
                          :suggestible true})
         leticia-clements (controller/add-profile!
                           {:name "Leticia Clements"
-                           :email "leticia.clements@email.com"
+                           :email "leticia.clements@nukr.com"
                            :suggestible true})
         ben-patterson (controller/add-profile!
                        {:name "Ben Patterson"
-                        :email "ben.patterson@email.com"
+                        :email "ben.patterson@nukr.com"
                         :suggestible true})
         rodolfo-bird (controller/add-profile!
                       {:name "Rodolfo Bird"
-                       :email "rodolfo.bird@email.com"
+                       :email "rodolfo.bird@nukr.com"
                        :suggestible true})
         kendra-heath (controller/add-profile!
                       {:name "Kendra Heath"
-                       :email "kendra.heath@email.com"
+                       :email "kendra.heath@nukr.com"
                        :suggestible true})
         cheyanne-mccullough (controller/add-profile!
                              {:name "Cheyanne Mccullough"
-                              :email "cheyanne.mccullough@email.com"
+                              :email "cheyanne.mccullough@nukr.com"
                               :suggestible true})
         rhianna-grant (controller/add-profile!
                        {:name "Rhianna Grant"
-                        :email "rhianna.grant@email.com"
+                        :email "rhianna.grant@nukr.com"
                         :suggestible true})
         sadie-hunt (controller/add-profile!
                     {:name "Sadie Hunt"
-                     :email "sadie.hunt@email.com"
+                     :email "sadie.hunt@nukr.com"
                      :suggestible true})
         riya-maynard (controller/add-profile!
                       {:name "Riya Maynard"
-                       :email "riya.maynard@email.com"
+                       :email "riya.maynard@nukr.com"
                        :suggestible true})
         emilio-whitaker (controller/add-profile!
                          {:name "Emilio Whitaker"
-                          :email "emilio.whitaker@email.com"
+                          :email "emilio.whitaker@nukr.com"
                           :suggestible true})
         anton-hardy (controller/add-profile!
                      {:name "Anton Hardy"
-                      :email "anton.hardy@email.com"
+                      :email "anton.hardy@nukr.com"
                       :suggestible false})
         luna-cervantes (controller/add-profile!
                         {:name "Luna Cervantes"
-                         :email "luna.cervantes@email.com"
+                         :email "luna.cervantes@nukr.com"
                          :suggestible true})
         terry-thompson (controller/add-profile!
                         {:name "Terry Thompson"
-                         :email "terry.thompson@email.com"
+                         :email "terry.thompson@nukr.com"
                          :suggestible true})
         griffin-valentine (controller/add-profile!
                            {:name "Griffin Valentine"
-                            :email "griffin.valentine@email.com"
+                            :email "griffin.valentine@nukr.com"
                             :suggestible true})
         karen-robles (controller/add-profile!
                       {:name "Karen Robles"
-                       :email "karen.robles@email.com"
+                       :email "karen.robles@nukr.com"
                        :suggestible true})
         jack-velasquez (controller/add-profile!
                         {:name "Jack Velasquez"
-                         :email "jack.velasquez@email.com"
+                         :email "jack.velasquez@nukr.com"
                          :suggestible true})
         aidan-carey (controller/add-profile!
                      {:name "Aidan Carey"
-                      :email "aidan.carey@email.com"
+                      :email "aidan.carey@nukr.com"
                       :suggestible true})
         gracelyn-turner (controller/add-profile!
                          {:name "Gracelyn Turner"
-                          :email "gracelyn.turner@email.com"
+                          :email "gracelyn.turner@nukr.com"
                           :suggestible false})
         talia-benson (controller/add-profile!
                       {:name "Talia Benson"
-                       :email "talia.benson@email.com"
+                       :email "talia.benson@nukr.com"
                        :suggestible false})
         darnell-blake (controller/add-profile!
                        {:name "Darnell Blake"
-                        :email "darnell.blake@email.com"
+                        :email "darnell.blake@nukr.com"
                         :suggestible false})
         delaney-greer (controller/add-profile!
                        {:name "Delaney Greer"
-                        :email "delaney.greer@email.com"
+                        :email "delaney.greer@nukr.com"
                         :suggestible true})
         noe-burton (controller/add-profile!
                     {:name "Noe Burton"
-                     :email "noe.burton@email.com"
+                     :email "noe.burton@nukr.com"
                      :suggestible true})
         brett-goodwin (controller/add-profile!
                        {:name "Brett Goodwin"
-                        :email "brett.goodwin@email.com"
+                        :email "brett.goodwin@nukr.com"
                         :suggestible false})
         melvin-aguilar (controller/add-profile!
                         {:name "Melvin Aguilar"
-                         :email "melvin.aguilar@email.com"
+                         :email "melvin.aguilar@nukr.com"
                          :suggestible true})
         rylan-mooney (controller/add-profile!
                       {:name "Rylan Mooney"
-                       :email "rylan.mooney@email.com"
+                       :email "rylan.mooney@nukr.com"
                        :suggestible true})
         kaylin-fitzpatrick (controller/add-profile!
                             {:name "Kaylin Fitzpatrick"
-                             :email "kaylin.fitzpatrick@email.com"
+                             :email "kaylin.fitzpatrick@nukr.com"
                              :suggestible true})
         malcolm-zhang (controller/add-profile!
                        {:name "Malcolm Zhang"
-                        :email "malcolm.zhang@email.com"
+                        :email "malcolm.zhang@nukr.com"
                         :suggestible false})
         alexis-bush (controller/add-profile!
                      {:name "Alexis Bush"
-                      :email "alexis.bush@email.com"
+                      :email "alexis.bush@nukr.com"
                       :suggestible true})
         zayne-clements (controller/add-profile!
                         {:name "Zayne Clements"
-                         :email "zayne.clements@email.com"
+                         :email "zayne.clements@nukr.com"
                          :suggestible false})
         emiliano-alvarado (controller/add-profile!
                            {:name "Emiliano Alvarado"
-                            :email "emiliano.alvarado@email.com"
+                            :email "emiliano.alvarado@nukr.com"
                             :suggestible true})
         brody-garrett (controller/add-profile!
                        {:name "Brody Garrett"
-                        :email "brody.garrett@email.com"
+                        :email "brody.garrett@nukr.com"
                         :suggestible false})
         paisley-rollins (controller/add-profile!
                          {:name "Paisley Rollins"
-                          :email "paisley.rollins@email.com"
+                          :email "paisley.rollins@nukr.com"
                           :suggestible true})
         alden-massey (controller/add-profile!
                       {:name "Alden Massey"
-                       :email "alden.massey@email.com"
+                       :email "alden.massey@nukr.com"
                        :suggestible true})
         brodie-gilmore (controller/add-profile!
                         {:name "Brodie Gilmore"
-                         :email "brodie.gilmore@email.com"
+                         :email "brodie.gilmore@nukr.com"
                          :suggestible true})
         kaydence-davidson (controller/add-profile!
                            {:name "Kaydence Davidson"
-                            :email "kaydence.davidson@email.com"
+                            :email "kaydence.davidson@nukr.com"
                             :suggestible true})
         lennon-mason (controller/add-profile!
                       {:name "Lennon Mason"
-                       :email "lennon.mason@email.com"
+                       :email "lennon.mason@nukr.com"
                        :suggestible false})
         madisyn-braun (controller/add-profile!
                        {:name "Madisyn Braun"
-                        :email "madisyn.braun@email.com"
+                        :email "madisyn.braun@nukr.com"
                         :suggestible false})
         ella-tyler (controller/add-profile!
                     {:name "Ella Tyler"
-                     :email "ella.tyler@email.com"
+                     :email "ella.tyler@nukr.com"
                      :suggestible false})
         paul-moran (controller/add-profile!
                     {:name "Paul Moran"
-                     :email "paul.moran@email.com"
+                     :email "paul.moran@nukr.com"
                      :suggestible false})
         griffin-cervantes (controller/add-profile!
                            {:name "Griffin Cervantes"
-                            :email "griffin.cervantes@email.com"
+                            :email "griffin.cervantes@nukr.com"
                             :suggestible false})
         maliyah-wilcox (controller/add-profile!
                         {:name "Maliyah Wilcox"
-                         :email "maliyah.wilcox@email.com"
+                         :email "maliyah.wilcox@nukr.com"
                          :suggestible false})
         tristen-joyce (controller/add-profile!
                        {:name "Tristen Joyce"
-                        :email "tristen.joyce@email.com"
+                        :email "tristen.joyce@nukr.com"
                         :suggestible true})
         rhett-shepard (controller/add-profile!
                        {:name "Rhett Shepard"
-                        :email "rhett.shepard@email.com"
+                        :email "rhett.shepard@nukr.com"
                         :suggestible true})
         shelby-austin (controller/add-profile!
                        {:name "Shelby Austin"
-                        :email "shelby.austin@email.com"
+                        :email "shelby.austin@nukr.com"
                         :suggestible true})]
     (controller/connect-profiles! (:id jon-bentley) (:id gracelyn-turner))
     (controller/connect-profiles! (:id jon-bentley) (:id darnell-blake))
