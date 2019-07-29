@@ -41,7 +41,7 @@ POST /v1/profiles
 {
     "name": "Foo Bar",
     "email": "foo.bar@nukr.com",
-    "suggestible: true
+    "suggestible": true
 }
 ```
 
