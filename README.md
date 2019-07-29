@@ -14,25 +14,28 @@ FIXME
 ## Routes
 
 ### Create a new profile
+
 ```
 POST /v1/profiles
 ```
+
 ##### Parameters
-| name    | type                | location |
-|---------|---------------------|----------|
-| profile | [Profile](#profile) | body (json)    |
+
+| name    | type                | location    |
+|---------|---------------------|-------------|
+| profile | [Profile](#profile) | body (json) |
 
 ### Models
 
 #### Profile
 
-| Name        | Type     | Required/default | Description                                                                             | Note                      |
-|-------------|----------|------------------|-----------------------------------------------------------------------------------------|---------------------------|
-| name        | `string` | yes              | Profile's name                                                                          | -                         |
+| Name        | Type     | Required/default | Description                                                                             | Note   |
+|-------------|----------|------------------|-----------------------------------------------------------------------------------------|--------|
+| name        | `string` | yes              | Profile's name                                                                          | -      |
 | email       | `string` | yes              | Profile's e-mail                                                                        | Unique |
-| suggestible | `bool`   | no/`true`        | Case true, profile will be shown in connection suggestions. If false, it will be hidden | -                         |
+| suggestible | `bool`   | no/`true`        | Case true, profile will be shown in connection suggestions. If false, it will be hidden | -      |
 
-**Example**
+**Profile example**
 
 ```json
 {
