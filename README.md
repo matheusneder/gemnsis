@@ -20,7 +20,7 @@ POST /v1/profiles
 ##### Parameters
 | name    | type                | location |
 |---------|---------------------|----------|
-| profile | [Profile](#profile) | body*    |
+| profile | [Profile](#profile) | body (json)    |
 
 ### Models
 
