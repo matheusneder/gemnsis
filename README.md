@@ -11,6 +11,40 @@ FIXME
 4. Run your app's tests with `lein test`. Read the tests at test/nukr/service_test.clj.
 5. Learn more! See the [Links section below](#links).
 
+## Routes
+
+### Create a new profile
+```
+POST /v1/profiles
+```
+##### Parameters
+| name    | type    | location | content-type       |
+|---------|---------|----------|--------------------|
+| profile | Profile | body     | `application/json` |
+
+#### Models
+
+**Profile**
+
+| Name        | Type     | Required | Description                                                                              | Default |
+|-------------|----------|----------|------------------------------------------------------------------------------------------|---------|
+| name        | `string` | yes      | Profile's name.                                                                          | -       |
+| email       | `string` | yes      | Profile's e-mail.                                                                        | -       |
+| suggestible | `bool`   | no       | Case true, profile will be shown in connection suggestions. If false, it will be hidden. | `true`  |
+
+**Example**
+
+```json
+{
+    "name": "Foo Bar",
+    "email": "foo.bar@nukr.com",
+    "suggestible: true
+}
+```
+
+#### Responses
+
+
 
 ## Configuration
 
