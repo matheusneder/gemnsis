@@ -245,3 +245,24 @@
       (log/info "profile-check-preconditions-ok-test" result)
       (is (= "Foo" (:name result))
           "FIXME"))))
+
+(deftest new-profile-test
+  (testing "logic/new-profile"
+    (let [result 
+          (logic/new-profile {:name "Foo"
+                              :email "foo@bar.com"})]
+      (log/info "new-profile-test" result)
+      (is (= "foo@bar.com" (:email result))
+          "FIXME"))))
+
+(deftest update-profile-test
+  (testing "logic/update-profile"
+    (let [result
+          (logic/update-profile 
+           {:name "Bar"
+            :email "bar@foo.com"}
+           {:name "Foo"
+            :email "foo@bar.com"})]
+      (log/info "update-profile-test" result)
+      (is (= "foo@bar.com" (:email result))
+          "FIXME"))))
