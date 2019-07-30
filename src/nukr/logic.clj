@@ -41,8 +41,7 @@
 (defn validate-profile-name
   "Check if profile name is not blank."
   [profile]
-  (if
-   (str/blank? (:name profile))
+  (if (str/blank? (:name profile))
     (add-error profile (:profile-name-required core-error))
     profile))
 
@@ -74,9 +73,9 @@
   "Check if e-mail for the given profile already exists
    on profile-coll."
   [profile profile-coll]
-  (let [emails (map #(-> % val :email) profile-coll)]
-    (if
-     (some #(= (:email profile) %) emails)
+  (let [emails (map #(-> % val :email) profile-coll)
+        profile-email (str/lower-case (:email profile))]
+    (if (some #(= profile-email %) emails)
       ;; invalid: email exists
       {:errors [(:profile-email-exists core-error)]}
       ;; valid: email is new to network
@@ -98,8 +97,7 @@
    email uniqueness over network."
   [profile profile-coll]
   (let [checked-profile (profile-validate-model profile)]
-    (if
-     (:errors checked-profile)
+    (if (:errors checked-profile)
       {:errors (:errors checked-profile)}
       (or
        (validate-profile-email-uniqueness profile profile-coll)
@@ -112,13 +110,25 @@
   [profile]
   {:id (uuid)
    :name (:name profile)
-   :email (:email profile)
+   :email (str/lower-case (:email profile))
    :created-at (now)
-   :suggestible (if 
-                 (nil? (:suggestible profile))  
-                  true
-                  (:suggestible profile))
+   :updated-at nil
+   :suggestible (boolean 
+                 (if (nil? (:suggestible profile))
+                   true
+                   (:suggestible profile)))
    :connections '()})
+
+(defn update-profile
+  [old-profile new-profile]
+  (merge old-profile
+         {:name (:name new-profile)
+          :email (str/lower-case (:email new-profile))
+          :updated-at (now)
+          :suggestible (boolean 
+                        (if (nil? (:suggestible new-profile))
+                          (:suggestible old-profile)
+                          (:suggestible new-profile)))}))
 
 (defn connect-single
   "Include source-profile-id to target-profile-model connection list. 
@@ -159,21 +169,17 @@
   (let [profiles (:profiles network)
         profile1-model (-> profiles (get profile1-id))
         profile2-model (-> profiles (get profile2-id))]
-    (if
-     ;; check if profile1 exists
-     (nil? profile1-model)
+    ;; check if profile1 exists
+    (if (nil? profile1-model)
       {:errors [(:profile-not-found core-error)]}
-      (if
-       ;; check if profile 1 and 2 are not the same
-       (= profile1-id profile2-id)
+      ;; check if profile 1 and 2 are not the same
+      (if (= profile1-id profile2-id)
         {:errors [(:could-not-connect-itself core-error)]}
-        (if
-         ;; check if profile 2 exists
-         (nil? profile2-model)
+        ;; check if profile 2 exists
+        (if (nil? profile2-model)
           {:errors [(:to-connect-profile-not-found core-error)]}
-          (if
-           ;; check if the profiles are not already connected
-           (some #(= profile2-id %) (:connections profile1-model))
+          ;; check if the profiles are not already connected
+          (if (some #(= profile2-id %) (:connections profile1-model))
             {:errors [(:profiles-already-connected core-error)]}
             ;; precondition passed, returning nil
             nil))))))
@@ -227,8 +233,7 @@
   (let [profiles (:profiles network)
         profile (get profiles profile-id)
         rank (get-degree-sequence profiles)]
-    (if
-     (nil? profile)
+    (if (nil? profile)
       ;; the given profile-id NOT found
       {:errors [(:profile-not-found core-error)]}
       ;; the given profile-id is valid, so
@@ -240,8 +245,7 @@
   [network profile-id]
   (let [profiles (:profiles network)
         profile (get profiles profile-id)]
-    (if
-     (nil? profile)
+    (if (nil? profile)
       ;; the given profile-id NOT found
       {:errors [(:profile-not-found core-error)]}
       ;; the given profile-id is valid, so...

@@ -31,6 +31,17 @@
       (ring-resp/created 
        (format "/v1/profiles/%s" (:id result)) result))))
 
+(defn put-profiles
+  [request]
+  (log/info :msg request)
+  (let [result (controller/update-profile! 
+                (-> request :path-params :id)
+                (:json-params request))]
+    (if
+     (:errors result)
+      (ring-resp/bad-request result)
+      (ring-resp/response result))))
+
 (defn post-profile-connections
   [request]
   (log/info :msg request)
@@ -138,6 +149,8 @@
                :get (conj common-interceptors `get-profiles)]
               ["/v1/profiles"
                :post (conj common-interceptors `post-profiles)]
+              ["/v1/profiles/:id"
+               :put (conj common-interceptors `put-profiles)]
               ["/v1/profiles/:id"
                :get (conj common-interceptors `get-profile-details)]
               ["/v1/profiles/:id/suggestions"

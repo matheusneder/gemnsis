@@ -32,6 +32,27 @@
          :suggestible (:suggestible new-profile)
          :create (:created-at new-profile)}))))
 
+(defn update-profile!
+  [profile-id profile]
+  (let [old-profile (database/read-profile profile-id)]
+    (if (nil? old-profile)
+      {:errors [(:profile-not-found logic/core-error)]}
+      (let [profile-or-error
+            (logic/profile-check-preconditions
+             profile
+             (dissoc (:profiles (database/read)) profile-id))]
+        (if
+         (:errors profile-or-error)
+          ;; return errors
+          profile-or-error
+          (let [new-profile (logic/update-profile old-profile profile)]
+            (database/add-profile! new-profile)
+            {:id (:id new-profile)
+             :name (:name new-profile)
+             :email (:email new-profile)
+             :suggestible (:suggestible new-profile)
+             :create (:created-at new-profile)}))))))
+
 (defn connect-profiles!
   [profile1-id profile2-id]
   (let [preconditions
@@ -165,8 +186,8 @@
                      :pages int (number of pages for the given perpage value)
                      :dropping int (number of dropping/skiping items)
                      :items '({:id uuid :name string})}
-                    --or--
-                    {:errors '({:key profile-not-found})}"
+                     --or--
+                     {:errors '({:key profile-not-found})}"
   [profile-id paginate-params]
   (let [result (logic/get-profile-connections 
                 (database/read) profile-id)]
@@ -197,6 +218,7 @@
        :email (:email result)
        :suggestible (:suggestible result)
        :created (:created-at result)
+       :update (:updated-at result)
        :connections (count (:connections result))})))
 
 (defn reset-database

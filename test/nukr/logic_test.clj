@@ -218,7 +218,7 @@
   (testing "logic/profile-check-preconditions [invalid model scenario]"
     (let [result
           (logic/profile-check-preconditions
-           {:name ""}
+           {:name "" :email "foo@bar.com"}
            {:profiles {}})]
       (log/info "profile-check-preconditions-invalid-model-test" result)
       (is (= (:profile-name-required logic/core-error)
