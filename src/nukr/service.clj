@@ -25,8 +25,7 @@
   [request]
   (log/info :msg request)
   (let [result (controller/add-profile! (:json-params request))]
-    (if
-     (:errors result)
+    (if (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/created 
        (format "/v1/profiles/%s" (:id result)) result))))
@@ -37,8 +36,7 @@
   (let [result (controller/update-profile! 
                 (-> request :path-params :id)
                 (:json-params request))]
-    (if
-     (:errors result)
+    (if (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/response result))))
 
@@ -48,8 +46,7 @@
   (let [result (controller/connect-profiles!
                 (-> request :path-params :id)
                 (-> request :json-params :id))]
-    (if
-     (:errors result)
+    (if (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/response result))))
 
@@ -70,8 +67,7 @@
   (let [result (controller/get-suggestions
                 (-> request :path-params :id)
                 (:query-params request))]
-    (if
-     (:errors result)
+    (if (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/response result))))
 
@@ -110,8 +106,7 @@
   (let [result (controller/get-profile-connections
                 (-> request :path-params :id)
                 (:query-params request))]
-    (if
-     (:errors result)
+    (if (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/response result))))
 
@@ -130,8 +125,7 @@
   (log/info :msg request)
   (let [result (controller/get-profile-details
                 (-> request :path-params :id))]
-    (if
-     (:errors result)
+    (if (:errors result)
       (ring-resp/bad-request result)
       (ring-resp/response result))))
 
@@ -145,19 +139,19 @@
                :get (conj common-interceptors `dump-database)]
               ["/v1"
                :delete (conj common-interceptors `reset-database)]
-              ["/v1/profiles"
-               :get (conj common-interceptors `get-profiles)]
-              ["/v1/profiles"
+              ["/v1/profiles/"
+               :get (conj common-interceptors `get-profiles)]         
+              ["/v1/profiles/"
                :post (conj common-interceptors `post-profiles)]
               ["/v1/profiles/:id"
                :put (conj common-interceptors `put-profiles)]
               ["/v1/profiles/:id"
                :get (conj common-interceptors `get-profile-details)]
-              ["/v1/profiles/:id/suggestions"
+              ["/v1/profiles/:id/suggestions/"
                :get (conj common-interceptors `get-suggestions)]
-              ["/v1/profiles/:id/connections"
+              ["/v1/profiles/:id/connections/"
                :get (conj common-interceptors `get-profile-connections)]
-              ["/v1/profiles/:id/connections"
+              ["/v1/profiles/:id/connections/"
                :post (conj common-interceptors `post-profile-connections)]})
 
 

@@ -120,6 +120,11 @@
    :connections '()})
 
 (defn update-profile
+  "Update a profile based on new-profile param and return it.
+   IMPORTANT NOTE: In order to update the profile, you must first
+   check preconditions using profile-check-preconditions function by
+   provinding the profile-coll with the target profile dissassociated
+   from it in order to get uniquess checks to correctly work."  
   [old-profile new-profile]
   (merge old-profile
          {:name (:name new-profile)

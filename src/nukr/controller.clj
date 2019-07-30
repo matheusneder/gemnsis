@@ -19,18 +19,13 @@
   (let [profile-or-error
         (logic/profile-check-preconditions
          profile
-         (:profiles (database/read)))]
-    (if
-     (:errors profile-or-error)
+         (:profiles (database/read-all)))]
+    (if (:errors profile-or-error)
       ;; return errors
       profile-or-error
       (let [new-profile (logic/new-profile profile)]
-        (database/add-profile! new-profile)
-        {:id (:id new-profile)
-         :name (:name new-profile)
-         :email (:email new-profile)
-         :suggestible (:suggestible new-profile)
-         :create (:created-at new-profile)}))))
+        (database/save-profile! new-profile)
+        (to-profile-analytic-model new-profile)))))
 
 (defn update-profile!
   [profile-id profile]
@@ -40,29 +35,26 @@
       (let [profile-or-error
             (logic/profile-check-preconditions
              profile
-             (dissoc (:profiles (database/read)) profile-id))]
-        (if
-         (:errors profile-or-error)
+             (dissoc (:profiles (database/read-all)) profile-id))]
+        (if (:errors profile-or-error)
           ;; return errors
           profile-or-error
           (let [new-profile (logic/update-profile old-profile profile)]
-            (database/add-profile! new-profile)
-            {:id (:id new-profile)
-             :name (:name new-profile)
-             :email (:email new-profile)
-             :suggestible (:suggestible new-profile)
-             :create (:created-at new-profile)}))))))
+            (database/save-profile! new-profile)
+            (to-profile-analytic-model new-profile)))))))
 
 (defn connect-profiles!
   [profile1-id profile2-id]
   (let [preconditions
         (logic/connecting-check-preconditions
-         (database/read)
+         (database/read-all)
          profile1-id
          profile2-id)]
-    (if (contains? preconditions :errors)
+    (if (:errors preconditions)
       preconditions
-      (database/connect! logic/connect profile1-id profile2-id))))
+      (let [result
+            (database/connect! logic/connect profile1-id profile2-id)]
+        (to-profile-analytic-model (get (:profiles result) profile2-id))))))
 
 (defn limit
   "If val greater than max, return max; 
@@ -77,8 +69,7 @@
   "Try to parse val as integer then returns it;
    If val is nil or not a valid integer then returns default-val."
   (let [provided-val 
-        (if 
-         (nil? val) 
+        (if (nil? val) 
           ;; keep nil if nil provided
           nil 
           ;; non nil val was provided
@@ -142,7 +133,7 @@
                      :dropping int (number of dropping/skiping items)
                      :items '({:id uuid :name string})}"
   [paginate-params]
-  (->> (-> (database/read)
+  (->> (-> (database/read-all)
            :profiles
            vals)
        profile-sintetic-projection
@@ -165,7 +156,7 @@
                      --or--
                      {:errors '({:key profile-not-found})}"
   [profile-id paginate-params]
-  (let [result (logic/get-suggestions (database/read) profile-id)]
+  (let [result (logic/get-suggestions (database/read-all) profile-id)]
     (if (:errors result)
       result
       (->> result
@@ -190,12 +181,22 @@
                      {:errors '({:key profile-not-found})}"
   [profile-id paginate-params]
   (let [result (logic/get-profile-connections 
-                (database/read) profile-id)]
+                (database/read-all) profile-id)]
     (if (:errors result)
       result
       (->> result
            profile-sintetic-projection
            (paginate paginate-params)))))
+
+(defn to-profile-analytic-model
+  [profile]
+  {:id (:id profile)
+   :name (:name profile)
+   :email (:email profile)
+   :suggestible (:suggestible profile)
+   :createdat (:created-at profile)
+   :updatedat (:updated-at profile)
+   :connections (count (:connections profile))})
 
 (defn get-profile-details
   "Get connections for a given profile-id.
@@ -210,16 +211,9 @@
                     {:errors '({:key profile-not-found})}"
   [profile-id]
   (let [result (database/read-profile profile-id)]
-    (if
-     (nil? result)
+    (if (nil? result)
       {:errors [(:profile-not-found logic/core-error)]}
-      {:id (:id result)
-       :name (:name result)
-       :email (:email result)
-       :suggestible (:suggestible result)
-       :created (:created-at result)
-       :update (:updated-at result)
-       :connections (count (:connections result))})))
+      (to-profile-analytic-model result))))
 
 (defn reset-database
   []
@@ -227,4 +221,4 @@
 
 (defn dump-database 
   []
-  (database/read))
+  (database/read-all))
