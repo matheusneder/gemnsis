@@ -3,8 +3,7 @@
 (defonce database (atom {}))
 
 (defn reset []
-  (reset! database {:profiles {}
-                    :connection-rank {}}))
+  (reset! database nil))
 
 (defn save-profile!
   [profile-model]
