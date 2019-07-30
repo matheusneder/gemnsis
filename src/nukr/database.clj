@@ -19,6 +19,10 @@
                   (assoc (:connection-rank database) (:id profile-model) 0)))
          profile-model))
 
+(defn read-all
+  []
+  @database)
+
 (defn read-profile
   [profile-id]
   (get (:profiles (read-all)) profile-id))
@@ -26,7 +30,3 @@
 (defn connect!
   [connect-fn profile1-id profile2-id]
   (swap! database connect-fn profile1-id profile2-id))
-
-(defn read-all
-  []
-  @database)

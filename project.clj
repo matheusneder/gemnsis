@@ -16,9 +16,11 @@
                  [org.slf4j/jul-to-slf4j "1.7.26"]
                  [org.slf4j/jcl-over-slf4j "1.7.26"]
                  [org.slf4j/log4j-over-slf4j "1.7.26"]
+                 [org.clojure/math.numeric-tower "0.0.4"]
+                 ;; Read json on service tests
+                 [org.clojure/data.json "0.2.6"]
                  ;; Logging on tests
-                 [org.clojure/tools.logging "0.5.0"]
-                 [org.clojure/math.numeric-tower "0.0.4"]]
+                 [org.clojure/tools.logging "0.5.0"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   ;; If you use HTTP/2 or ALPN, use the java-agent to pull in the correct alpn-boot dependency

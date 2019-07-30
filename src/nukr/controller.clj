@@ -5,6 +5,16 @@
    [nukr.logic :as logic]
    [clojure.math.numeric-tower :as math]))
 
+(defn to-profile-analytic-model
+  [profile]
+  {:id (:id profile)
+   :name (:name profile)
+   :email (:email profile)
+   :suggestible (:suggestible profile)
+   :createdat (:created-at profile)
+   :updatedat (:updated-at profile)
+   :connections (count (:connections profile))})
+
 (defn add-profile!
   "Add a new profile to network.
    Input  model is: {:name string 
@@ -187,16 +197,6 @@
       (->> result
            profile-sintetic-projection
            (paginate paginate-params)))))
-
-(defn to-profile-analytic-model
-  [profile]
-  {:id (:id profile)
-   :name (:name profile)
-   :email (:email profile)
-   :suggestible (:suggestible profile)
-   :createdat (:created-at profile)
-   :updatedat (:updated-at profile)
-   :connections (count (:connections profile))})
 
 (defn get-profile-details
   "Get connections for a given profile-id.
