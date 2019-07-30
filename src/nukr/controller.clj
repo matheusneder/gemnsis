@@ -7,19 +7,36 @@
 
 (defn add-profile!
   "Add a new profile to network.
-   Input  model is: { :name string :email string :suggestible bool (optional, 
-                                                              default true) };
-   Output model is: { :id uuid :name string :email string :suggestigle bool }"
-  [add-profile-dto]
-  (let [profile-model (logic/new-profile add-profile-dto)]
-    (database/add-profile! profile-model)
-    profile-model))
+   Input  model is: {:name string 
+                     :email string 
+                     :suggestible bool (optional, default true)};
+   Output model is: {:id uuid 
+                     :name string 
+                     :email string 
+                     :suggestigle bool
+                     :created date}"
+  [profile]
+  (let [profile-or-error
+        (logic/profile-check-preconditions
+         profile
+         (:profiles (database/read)))]
+    (if
+     (:errors profile-or-error)
+      ;; return errors
+      profile-or-error
+      (let [new-profile (logic/new-profile profile)]
+        (database/add-profile! new-profile)
+        {:id (:id new-profile)
+         :name (:name new-profile)
+         :email (:email new-profile)
+         :suggestible (:suggestible new-profile)
+         :create (:created-at new-profile)}))))
 
 (defn connect-profiles!
   [profile1-id profile2-id]
   (let [preconditions
         (logic/connecting-check-preconditions
-         (database/read-all)
+         (database/read)
          profile1-id
          profile2-id)]
     (if (contains? preconditions :errors)
@@ -104,7 +121,7 @@
                      :dropping int (number of dropping/skiping items)
                      :items '({:id uuid :name string})}"
   [paginate-params]
-  (->> (-> (database/read-all)
+  (->> (-> (database/read)
            :profiles
            vals)
        profile-sintetic-projection
@@ -127,7 +144,7 @@
                      --or--
                      {:errors '({:key profile-not-found})}"
   [profile-id paginate-params]
-  (let [result (logic/get-suggestions (database/read-all) profile-id)]
+  (let [result (logic/get-suggestions (database/read) profile-id)]
     (if (:errors result)
       result
       (->> result
@@ -152,7 +169,7 @@
                     {:errors '({:key profile-not-found})}"
   [profile-id paginate-params]
   (let [result (logic/get-profile-connections 
-                (database/read-all) profile-id)]
+                (database/read) profile-id)]
     (if (:errors result)
       result
       (->> result
@@ -166,6 +183,7 @@
                      :name string
                      :email string
                      :suggestible bool
+                     :create date
                      :connections int}
                     --or--
                     {:errors '({:key profile-not-found})}"
@@ -178,7 +196,7 @@
        :name (:name result)
        :email (:email result)
        :suggestible (:suggestible result)
-       :created-at (:created-at result)
+       :created (:created-at result)
        :connections (count (:connections result))})))
 
 (defn reset-database
@@ -187,4 +205,4 @@
 
 (defn dump-database 
   []
-  (database/read-all))
+  (database/read))

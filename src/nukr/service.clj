@@ -24,8 +24,12 @@
 (defn post-profiles
   [request]
   (log/info :msg request)
-  (let [profile-model (controller/add-profile! (:json-params request))]
-    (ring-resp/response profile-model)))
+  (let [result (controller/add-profile! (:json-params request))]
+    (if
+     (:errors result)
+      (ring-resp/bad-request result)
+      (ring-resp/created 
+       (format "/v1/profiles/%s" (:id result)) result))))
 
 (defn post-profile-connections
   [request]
@@ -189,7 +193,7 @@
               ;;  This can also be your own chain provider/server-fn -- http://pedestal.io/reference/architecture-overview#_chain_provider
               ::http/type :jetty
               ::http/host "0.0.0.0"
-              ::http/port 9000
+              ::http/port 8080
               ;; Options to pass to the container (Jetty)
               ::http/container-options {:h2c? true
                                         :h2? false

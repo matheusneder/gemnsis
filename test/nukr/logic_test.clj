@@ -45,7 +45,7 @@
 (deftest connecting-check-preconditions-profiles-already-connected
   (testing "logic/connecting-check-preconditions [profiles-already-connected]"
     (let [result (logic/connecting-check-preconditions
-                  ;; network with profile "1"
+                  ;; network with profile "1" and "2"
                   {:profiles {"1" 
                               {:id "1" :connections '("2")}
                               "2"
@@ -55,6 +55,21 @@
                   ;; valid profile-id (already connected)
                   "2")]
       (is (= (:profiles-already-connected logic/core-error)
+             (-> result
+                 :errors
+                 first))
+          "FIXME"))))
+
+(deftest connecting-check-preconditions-could-not-connect-itself
+  (testing "logic/connecting-check-preconditions [could-not-connect-itself]"
+    (let [result (logic/connecting-check-preconditions
+                  ;; network with profile "1"
+                  {:profiles {"1" {:id "1" }}}
+                  ;; valid profile-id 
+                  "1"
+                  ;; valid profile-id (it self)
+                  "1")]
+      (is (= (:could-not-connect-itself logic/core-error)
              (-> result
                  :errors
                  first))
@@ -163,4 +178,70 @@
       (log/info "get-profile-connections-profile-not-found-test" result)
       (is (= (:profile-not-found logic/core-error) 
              (-> result :errors first))
+          "FIXME"))))
+
+(deftest validate-profile-name-required-test
+  (testing "logic/validate-profile-name [profile-name-required]"
+    (let [result (logic/validate-profile-name {:name "  "})]
+      (log/info "validate-profile-name-required-test" result)
+      (is (= (:profile-name-required logic/core-error)
+             (-> result :errors first))
+          "FIXME"))))
+
+(deftest validate-profile-email-required-test
+  (testing "logic/validate-profile-email [profile-email-required]"
+    (let [result (logic/validate-profile-email {:email "  "})]
+      (log/info "validate-profile-email-required-test" result)
+      (is (= (:profile-email-required logic/core-error)
+             (-> result :errors first))
+          "FIXME"))))
+
+(deftest validate-profile-email-invalid-test
+  (testing "logic/validate-profile-email [profile-invalid-email]"
+    (let [result (logic/validate-profile-email {:email "foo"})]
+      (log/info "validate-profile-email-invalid-test" result)
+      (is (= (:profile-invalid-email logic/core-error)
+             (-> result :errors first))
+          "FIXME"))))
+
+(deftest validate-profile-email-uniqueness-test
+  (testing "logic/validate-profile-email-uniqueness"
+    (let [result 
+          (logic/validate-profile-email-uniqueness 
+           {:email "foo@bar"} {"1" {:email "foo@bar"}})]
+      (log/info "validate-profile-email-uniqueness-test" result)
+      (is (= (:profile-email-exists logic/core-error)
+             (-> result :errors first))
+          "FIXME"))))
+
+(deftest profile-check-preconditions-invalid-model-test
+  (testing "logic/profile-check-preconditions [invalid model scenario]"
+    (let [result
+          (logic/profile-check-preconditions
+           {:name ""}
+           {:profiles {}})]
+      (log/info "profile-check-preconditions-invalid-model-test" result)
+      (is (= (:profile-name-required logic/core-error)
+             (-> result :errors first))
+          "FIXME"))))
+
+(deftest profile-check-preconditions-duplicated-email-test
+  (testing "logic/profile-check-preconditions [duplicated email scenario]"
+    (let [result
+          (logic/profile-check-preconditions
+           {:name "Foo" :email "foo@bar.com"} 
+           {"1" {:name "Bar" :email "foo@bar.com"}})]
+      (log/info "profile-check-preconditions-duplicated-email-test" result)
+      (is (= (:profile-email-exists logic/core-error)
+             (-> result :errors first))
+          "FIXME"))))
+
+(deftest profile-check-preconditions-ok-test
+  (testing "logic/profile-check-preconditions [duplicated email scenario]"
+    (let [result
+          (logic/profile-check-preconditions
+           {:name "Foo" :email "foo@bar.com"}
+           {})]
+      (log/info "profile-check-preconditions-ok-test" result)
+      (is (= "Foo" (:name result))
           "FIXME"))))

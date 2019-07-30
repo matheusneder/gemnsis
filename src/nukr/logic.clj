@@ -1,4 +1,6 @@
-(ns nukr.logic)
+(ns nukr.logic
+  (:require 
+   [clojure.string :as str]))
 
 (defn uuid [] (.toString (java.util.UUID/randomUUID)))
 (defn now [] (java.util.Date.))
@@ -12,12 +14,101 @@
     :msg "Trying to connect to a nonexistent profile"}
    :profiles-already-connected
    {:key "profiles-already-connected"
-    :msg "Trying to connect to a profile which is already connected to."}})
+    :msg "Trying to connect to a profile which is already connected to."}
+   :could-not-connect-itself
+   {:key "could-not-connect-itself"
+    :msg "Could not connect profile to it self."}
+   :profile-name-required
+   {:key "profile-name-required"
+    :msg "Profile name is required."}
+   :profile-invalid-email
+   {:key "profile-invalid-email"
+    :msg "Profile e-mail is invalid."}
+   :profile-email-required
+   {:key "profile-email-required"
+    :msg "Profile e-mail is required."}
+   :profile-email-exists
+   {:key "profile-email-exists"
+    :msg "Email address is already in use for another profile."}})
+
+(defn add-error 
+  [data error]
+  (assoc
+   data
+   :errors (conj (:errors data)
+                 error)))
+
+(defn validate-profile-name
+  "Check if profile name is not blank."
+  [profile]
+  (if
+   (str/blank? (:name profile))
+    (add-error profile (:profile-name-required core-error))
+    profile))
+
+(defn validate-profile-email
+  "Validate profile e-mail"
+  [profile]
+  (let [profile
+        ;; convert email to lower case
+        (assoc profile :email (str/lower-case 
+                               ;; use a empty string if nil
+                               ;; to prevent NullPointerException
+                               ;; on str/lower-case
+                               (or (:email profile) "")))]
+    (if (str/blank? (:email profile))
+      ;; invalid: it's blank.
+      (add-error profile (:profile-email-required core-error))
+       ;; look for regex validation only if email is not blank
+       ;; in order to avoid to add two errors for the same 
+       ;; field.      
+      (if
+       (re-matches #"^[a-z0-9.+_-]+@[a-z0-9]{2,}(\.[a-z0-9]{2,})+$"
+                   (:email profile))
+        ;; valid: matches regex pattern
+        profile
+        ;; invalid: didnt match regex pattern
+        (add-error profile (:profile-invalid-email core-error))))))
+
+(defn validate-profile-email-uniqueness
+  "Check if e-mail for the given profile already exists
+   on profile-coll."
+  [profile profile-coll]
+  (let [emails (map #(-> % val :email) profile-coll)]
+    (if
+     (some #(= (:email profile) %) emails)
+      ;; invalid: email exists
+      {:errors [(:profile-email-exists core-error)]}
+      ;; valid: email is new to network
+      nil)))
+
+(defn profile-validate-model
+  "Validate model for a new profile. If validation fail, validation errors 
+   will be associate to the :errors key in profile model (as a list). This 
+   approach is based on notification pattern -
+   https://martinfowler.com/eaaDev/Notification.html."
+  [profile]
+  (-> profile
+      validate-profile-name
+      validate-profile-email))
 
 (defn profile-check-preconditions
-  [])
+  "Check profile preconditions by first check model validation using
+   profile-validate-model function. If model was valid, it will check for
+   email uniqueness over network."
+  [profile profile-coll]
+  (let [checked-profile (profile-validate-model profile)]
+    (if
+     (:errors checked-profile)
+      {:errors (:errors checked-profile)}
+      (or
+       (validate-profile-email-uniqueness profile profile-coll)
+       profile))))
 
 (defn new-profile 
+  "Create a new profile and return it.
+   IMPORTANT NOTE: In order to create a new profile, you must first
+   check preconditions using profile-check-preconditions function."
   [profile]
   {:id (uuid)
    :name (:name profile)
@@ -57,6 +148,8 @@
      {:errors 
        [(:profile-not-found core-error)
         --or--
+        (:could-not-connect-itself core-error)
+        --or--
         (:to-connect-profile-not-found core-error)
         --or-- 
         (:profiles-already-connected core-error)]}
@@ -71,19 +164,23 @@
      (nil? profile1-model)
       {:errors [(:profile-not-found core-error)]}
       (if
-       ;; check if profile 2 exists
-       (nil? profile2-model)
-        {:errors [(:to-connect-profile-not-found core-error)]}
+       ;; check if profile 1 and 2 are not the same
+       (= profile1-id profile2-id)
+        {:errors [(:could-not-connect-itself core-error)]}
         (if
-         ;; check if the profiles are not already connected
-         (some #(= profile2-id %) (:connections profile1-model))
-          {:errors [(:profiles-already-connected core-error)]}
-          ;; precondition passed, returning nil
-          nil)))))
+         ;; check if profile 2 exists
+         (nil? profile2-model)
+          {:errors [(:to-connect-profile-not-found core-error)]}
+          (if
+           ;; check if the profiles are not already connected
+           (some #(= profile2-id %) (:connections profile1-model))
+            {:errors [(:profiles-already-connected core-error)]}
+            ;; precondition passed, returning nil
+            nil))))))
 
 (defn connect
   "Connect profile1 to profile2 and vice-versa.
-   IMPORTANT NOTE: Strongly recomended to check preconditions using 
+   IMPORTANT NOTE: Strongly recommended to check preconditions using 
    connecting-check-preconditions function before use connect.
    If preconditions not checked and profile1 or profile2 don't exists, 
    it will be included in an invalid way in the network."

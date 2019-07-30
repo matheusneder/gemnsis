@@ -25,6 +25,6 @@
   [connect-fn profile1-id profile2-id]
   (swap! database connect-fn profile1-id profile2-id))
 
-(defn read-all
+(defn read
   []
   @database)
