@@ -21,12 +21,18 @@ POST /v1/profiles/
 
 ##### Parameters
 
-| name    | type                      | location    | Description         |
+| Name    | Type                      | Location    | Description         |
 |---------|---------------------------|-------------|---------------------|
 | profile | [profile-in](#profile-in) | body (json) | Profile data.       |
 
 ##### Responses
 
+| Status | Type                                        | Description          |
+|--------|---------------------------------------------|----------------------|
+| 201    | [profile-details-out](#profile-details-out) | Profile created.     |
+| 400    | [core-error-coll](#core-error-coll)         | Precondition failed. |
+
+**Important**: See [profile input errors](#profile-input-errors) section for details about erros while creating profile.
 
 ### Edit profile
 ```
@@ -34,14 +40,25 @@ PUT /v1/profiles/:id
 ```
 ##### Parameters
 
-| name    | type                      | location    | Description         |
+| Name    | Type                      | Location    | Description         |
 |---------|---------------------------|-------------|---------------------|
-| id      | uuid                      | route path  | Profile identifier. |
+| id      | `uuid`                    | route path  | Profile identifier. |
 | profile | [profile-in](#profile-in) | body (json) | Profile data.       |
 
-### Models
+##### Responses
 
-#### profile-in
+| Status | Type                                        | Description          |
+|--------|---------------------------------------------|----------------------|
+| 200    | [profile-details-out](#profile-details-out) | Profile updated.     |
+| 400    | [core-error-coll](#core-error-coll)         | Precondition failed. |
+| 404    | [core-error-coll](#core-error-coll)         | Profile not found.   |
+
+**Important**: See [profile input errors](#profile-input-errors) section for details about erros while editing profile.
+
+
+## Models
+
+### profile-in
 
 Input model for [create a new profile](#create-a-new-profile) and [edit profile](#edit-profile).
 
@@ -65,10 +82,81 @@ Example
     "visible": true
 }
 ```
+### profile-details-out
 
-#### Responses
+Output model for [create a new profile](#create-a-new-profile), [edit profile](#edit-profile) and [profile details](#profile-details).
 
+| Name        | Type       | Description                                |
+|-------------|------------|--------------------------------------------|
+| id          | `uuid`     | Profile identifier.                        |
+| name        | `string`   | Profile name.                              |
+| email       | `string`   | Profile email.                             |
+| visible     | `bool`     | Visibility for the connection suggestions. |
+| createdat   | `datetime` | Creation date.                             |
+| updatedat   | `datetime` | Last update date (could be null).          |
+| connections | `int`      | Number of connections.                     |
 
+Notes
+
+- If profile never updated, updatedat will be `null`.
+- Datetime in [ISO 8601](https://pt.wikipedia.org/wiki/ISO_8601) format.
+
+Example
+
+```json
+{
+    "id": "7a0b5891-ce51-455d-b8d7-a46e223be220",
+    "name": "Foo",
+    "email": "foo@bar.com",
+    "visible": true,
+    "createdat": "2019-08-03T13:54:09Z",
+    "updatedat": null,
+    "connections": 0
+}
+```
+
+### core-error-coll
+
+| Name   | Type                                        | Description        |
+|--------|---------------------------------------------|--------------------|
+| errors | List of [core-error-item](#core-error-item) | Error reason list. |
+
+Example
+
+```json
+{
+    "errors": [
+        {
+            "key": "profile-invalid-email",
+            "msg": "Profile e-mail is invalid."
+        },
+        {
+            "key": "profile-name-required",
+            "msg": "Profile name is required."
+        }
+    ]
+}
+```
+
+### core-error-item
+
+| Name | Type     | Description    |
+|------|----------|----------------|
+| key  | `string` | Error key.     |
+| msg  | `string` | Error message. |
+
+## Profile validation
+
+### Profile input errors
+
+Profile input error model is [core-error-coll](#core-error-coll). The table bellow enlist the possibles [core-error-item](#core-error-item) while creating/editing profile by its key and condition.
+
+| Key                      | Condition                                 |
+|--------------------------|---------------------------------------------|
+| `profile-name-required`  | Name is empty or blank.                     |
+| `profile-email-required` | Email is empty or blank.                    |
+| `profile-invalid-email`  | Email did'nt match email regexp validation. |
+| `profile-email-exists`   | Email already exists in network.            |
 
 ## Configuration
 
@@ -101,4 +189,3 @@ Once the image it built, it's cached.  To delete the image and build a new one:
 
 ## Links
 * [Other Pedestal examples](http://pedestal.io/samples)
-
