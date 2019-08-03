@@ -102,39 +102,39 @@
 (def network-mock {:profiles
                    {"1" {:id "1"
                          :name "foo"
-                         :suggestible true
+                         :visible true
                          :connections '("2")}
                     "2" {:id "2"
                          :name "bar"
-                         :suggestible true
+                         :visible true
                          :connections '("9" "6" "1")}
                     "3" {:id "3"
                          :name "foobar"
-                         :suggestible true
+                         :visible true
                          :connections '("9")}
                     "4" {:id "4"
                          :name "barfoo"
-                         :suggestible true
+                         :visible true
                          :connections '("9")}
                     "5" {:id "5"
                          :name "foo-2"
-                         :suggestible true
+                         :visible true
                          :connections '()}
                     "6" {:id "6"
                          :name "bar-2"
-                         :suggestible true
+                         :visible true
                          :connections '("9" "2")}
                     "7" {:id "7"
                          :name "foobar-2"
-                         :suggestible true
+                         :visible true
                          :connections '("9")}
                     "8" {:id "8"
                          :name "barfoo-2"
-                         :suggestible true
+                         :visible true
                          :connections '("9")}
                     "9" {:id "9"
                          :name "foo"
-                         :suggestible false
+                         :visible false
                          :connections '("2" "3" "4" "6" "7" "8")}}})
 
 (deftest get-degree-sequence-test

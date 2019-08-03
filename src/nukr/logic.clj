@@ -113,10 +113,10 @@
    :email (str/lower-case (:email profile))
    :created-at (now)
    :updated-at nil
-   :suggestible (boolean 
-                 (if (nil? (:suggestible profile))
+   :visible (boolean 
+                 (if (nil? (:visible profile))
                    true
-                   (:suggestible profile)))
+                   (:visible profile)))
    :connections '()})
 
 (defn update-profile
@@ -130,10 +130,10 @@
          {:name (:name new-profile)
           :email (str/lower-case (:email new-profile))
           :updated-at (now)
-          :suggestible (boolean 
-                        (if (nil? (:suggestible new-profile))
-                          (:suggestible old-profile)
-                          (:suggestible new-profile)))}))
+          :visible (boolean 
+                        (if (nil? (:visible new-profile))
+                          (:visible old-profile)
+                          (:visible new-profile)))}))
 
 (defn connect-single
   "Include source-profile-id to target-profile-model connection list. 
@@ -226,7 +226,7 @@
         connections (:connections profile)]
     (and
      ;; available for suggestions
-     (:suggestible candidate)
+     (:visible candidate)
      ;; not the same profile
      (not= (:id candidate) profile-id)
      ;; is not already connected to

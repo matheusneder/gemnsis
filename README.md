@@ -33,7 +33,7 @@ POST /v1/profiles
 |-------------|----------|------------------|-----------------------------------------------------------------------------------------|--------|
 | name        | `string` | yes              | Profile's name                                                                          | -      |
 | email       | `string` | yes              | Profile's e-mail                                                                        | Unique |
-| suggestible | `bool`   | no/`true`        | Case true, profile will be shown in connection suggestions. If false, it will be hidden | -      |
+| visible | `bool`   | no/`true`        | Case true, profile will be shown in connection suggestions. If false, it will be hidden | -      |
 
 **Profile example**
 
@@ -41,7 +41,7 @@ POST /v1/profiles
 {
     "name": "Foo Bar",
     "email": "foo.bar@nukr.com",
-    "suggestible": true
+    "visible": true
 }
 ```
 

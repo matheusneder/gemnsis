@@ -117,7 +117,7 @@
      HTTP 200: {:id uuid
                 :name string
                 :email string
-                :suggestible bool
+                :visible bool
                 :connections int}
      --or--
      HTTP 400: {:errors '({:key profile-not-found})}"

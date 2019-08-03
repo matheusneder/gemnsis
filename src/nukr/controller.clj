@@ -10,7 +10,7 @@
   {:id (:id profile)
    :name (:name profile)
    :email (:email profile)
-   :suggestible (:suggestible profile)
+   :visible (:visible profile)
    :createdat (:created-at profile)
    :updatedat (:updated-at profile)
    :connections (count (:connections profile))})
@@ -19,7 +19,7 @@
   "Add a new profile to network.
    Input  model is: {:name string 
                      :email string 
-                     :suggestible bool (optional, default true)};
+                     :visible bool (optional, default true)};
    Output model is: {:id uuid 
                      :name string 
                      :email string 
@@ -204,7 +204,7 @@
    Output model is: {:id uuid
                      :name string
                      :email string
-                     :suggestible bool
+                     :visible bool
                      :create date
                      :connections int}
                     --or--
