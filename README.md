@@ -13,7 +13,7 @@ FIXME
 
 ## Routes
 
-### Create a new profile
+### Create profile
 
 ```
 POST /v1/profiles/
@@ -42,7 +42,7 @@ PUT /v1/profiles/:id
 
 | Name    | Type                      | Location    | Description         |
 |---------|---------------------------|-------------|---------------------|
-| id      | `uuid`                    | route path  | Profile identifier. |
+| id      | `uuid`                    | path  | Profile identifier. |
 | profile | [profile-in](#profile-in) | body (json) | Profile data.       |
 
 ##### Responses
@@ -55,12 +55,44 @@ PUT /v1/profiles/:id
 
 **Important**: See [profile input errors](#profile-input-errors) section for details about erros while editing profile.
 
+### Profile details
+```
+GET /v1/profiles/:id
+```
+##### Parameters
+
+| Name    | Type                      | Location    | Description         |
+|---------|---------------------------|-------------|---------------------|
+| id      | `uuid`                    | path  | Profile identifier. |
+
+##### Responses
+
+| Status | Type                                        | Description          |
+|--------|---------------------------------------------|----------------------|
+| 200    | [profile-details-out](#profile-details-out) | Profile updated.     |
+| 404    | [core-error-coll](#core-error-coll)         | Profile not found. |
+
+### List profiles
+```
+GET /v1/profiles/
+```
+##### Parameters
+
+| Name       | Type                            | Location | Description         |
+|------------|---------------------------------|----------|---------------------|
+| pagination | [pagination-in](#pagination-in) | query    | Pagination options. |
+
+##### Responses
+
+| Status | Type                                        | Description          |
+|--------|---------------------------------------------|----------------------|
+| 200    | [profile-list-page-out](profile-list-page-out) | Profile list.     |
 
 ## Models
 
 ### profile-in
 
-Input model for [create a new profile](#create-a-new-profile) and [edit profile](#edit-profile).
+Input model for [create profile](#create-profile) and [edit profile](#edit-profile).
 
 | Name    | Type     | Required | Description                                |
 |---------|----------|----------|--------------------------------------------|
@@ -145,6 +177,31 @@ Example
 | key  | `string` | Error key.     |
 | msg  | `string` | Error message. |
 
+### pagination-in
+
+| Name    | Type  | Default | Description               |
+|---------|-------|----------|---------------------------|
+| page    | `int` | 1       | Page number to retrieve.  |
+| perpage | `int` | 10       | Number of items per page. |
+
+Notes
+- **perpage** value is limited to 50.
+
+Examples 
+- `/v1/profiles/?page=4`
+- `/v1/profiles/?page=2&perpage=20`
+
+### profile-list-page-out
+
+| Name     | Type                            | Description                   |
+|----------|---------------------------------|-------------------------------|
+| total    | `int`                           | Number of total items in coll.|
+| showing  | `int`                           | Num. of items on current page.|
+| page     | `int`                           | Current page number.          |
+| pages    | `int`                           | Number of total pages.        |
+| dropping | `int`                           | Items being dropped/skiped.   |
+| items    | [prof-sint-out](#prof-sint-out) | Collection for current page.  |
+
 ## Profile validation
 
 ### Profile input errors
@@ -189,3 +246,4 @@ Once the image it built, it's cached.  To delete the image and build a new one:
 
 ## Links
 * [Other Pedestal examples](http://pedestal.io/samples)
+
