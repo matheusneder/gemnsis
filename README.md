@@ -29,11 +29,11 @@ POST /v1/profiles
 
 #### Profile
 
-| Name        | Type     | Required/default | Description                                                                             | Note   |
-|-------------|----------|------------------|-----------------------------------------------------------------------------------------|--------|
-| name        | `string` | yes              | Profile's name                                                                          | -      |
-| email       | `string` | yes              | Profile's e-mail                                                                        | Unique |
-| visible | `bool`   | no/`true`        | Case true, profile will be shown in connection suggestions. If false, it will be hidden | -      |
+| Name    | Type     | Required | Description                                                                                                                                  |
+|---------|----------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| name    | `string` | yes      | Profile's name.                                                                                                                              |
+| email   | `string` | yes      | Profile's email. It must be unique over the network and will be validated through regex `^[a-z0-9.+_-]+@[a-z0-9]{2,}(  \.  [a-z0-9]{2,})+$`. |
+| visible | `bool`   | no       | Enable/disable profile visibility for the connection suggestions. **Default value:** `true`.                                                 |
 
 **Profile example**
 
