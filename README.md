@@ -29,13 +29,18 @@ POST /v1/profiles
 
 #### Profile
 
-| Name    | Type     | Required | Description                                                                                                                                  |
-|---------|----------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| name    | `string` | yes      | Profile's name.                                                                                                                              |
-| email   | `string` | yes      | Profile's email. It must be unique over the network and will be validated through regex `^[a-z0-9.+_-]+@[a-z0-9]{2,}(  \.  [a-z0-9]{2,})+$`. |
-| visible | `bool`   | no       | Enable/disable profile visibility for the connection suggestions. **Default value:** `true`.                                                 |
+| Name    | Type     | Required | Description                                |
+|---------|----------|----------|--------------------------------------------|
+| name    | `string` | yes      | Profile's name.                            |
+| email   | `string` | yes      | Profile's email.                           |
+| visible | `bool`   | no       | Visibility for the connection suggestions. |
 
-**Profile example**
+Notes
+
+- Profile's email must be unique over the network and match regexp `^[a-z0-9.+_-]+@[a-z0-9]{2,}(\.[a-z0-9]{2,})+$`.
+- **visible** default value is `true`.
+
+Example
 
 ```json
 {
