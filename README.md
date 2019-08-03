@@ -16,18 +16,34 @@ FIXME
 ### Create a new profile
 
 ```
-POST /v1/profiles
+POST /v1/profiles/
 ```
 
 ##### Parameters
 
-| name    | type                | location    |
-|---------|---------------------|-------------|
-| profile | [Profile](#profile) | body (json) |
+| name    | type                      | location    | Description         |
+|---------|---------------------------|-------------|---------------------|
+| profile | [profile-in](#profile-in) | body (json) | Profile data.       |
+
+##### Responses
+
+
+### Edit profile
+```
+PUT /v1/profiles/:id
+```
+##### Parameters
+
+| name    | type                      | location    | Description         |
+|---------|---------------------------|-------------|---------------------|
+| id      | uuid                      | route path  | Profile identifier. |
+| profile | [profile-in](#profile-in) | body (json) | Profile data.       |
 
 ### Models
 
-#### Profile
+#### profile-in
+
+Input model for [create a new profile](#create-a-new-profile) and [edit profile](#edit-profile).
 
 | Name    | Type     | Required | Description                                |
 |---------|----------|----------|--------------------------------------------|
@@ -85,3 +101,4 @@ Once the image it built, it's cached.  To delete the image and build a new one:
 
 ## Links
 * [Other Pedestal examples](http://pedestal.io/samples)
+
