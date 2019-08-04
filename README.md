@@ -26,11 +26,11 @@ Create a new profile.
 
 #### Responses
 
-| Status | Type                                        | Description         |
-|--------|---------------------------------------------|---------------------|
-| 201    | [profile-details-out](#profile-details-out) | Profile created.    |
-| 400    | [prof. input errors](#profile-input-errors) | Invalid input data. |
-
+| Status | Type                                         | Description         |
+|--------|----------------------------------------------|---------------------|
+| 201    | [profile-details-out](#profile-details-out)  | Profile created.    |
+| 400    | [prof. input errors](#profile-input-errors)  | Invalid input data. |
+| 507    | [net. over capacity](#network-over-capacity) | Over capacity.      |
 
 ### Edit profile
 Edit an existing profile.
@@ -430,9 +430,21 @@ The table below enumerate the possibles [core-error-item](#core-error-item) whil
 | `to-connect-profile-not-found` | Trying to connect to a nonexistent profile. |
 | `could-not-connect-itself`     | Trying to connect to itself.                |
 | `profiles-already-connected`   | Profiles are already connected.             |
+| `conn-limit-reached`           | Max number of connections reached (1000).   |
+| `conn-to-limit-reached`        | Connecting to max number of conn. reached.  |
 
 Applies to:
 - [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections/`
+
+### Network over capacity
+In order to network's healthiness garanties, total number of profiles is limited to 10000. The `network-over-capacity` error reason will be raised while trying to [create profile](#create-profile) and this limit was reached. A warnning log will be generated for this event in order to backend team get knowledge of the issue.
+
+| Key                     | Condition                                        |
+|-------------------------|--------------------------------------------------|
+| `network-over-capacity` | Not accepting new profiles due capacity reasons. |
+
+Applies to:
+- [Create profile](#create-profile) - `POST /v1/profiles/`
 
 ## Configuration
 
