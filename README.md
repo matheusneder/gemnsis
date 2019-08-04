@@ -231,7 +231,7 @@ Output model for [create profile](#create-profile), [edit profile](#edit-profile
 Notes:
 
 - If profile never updated, updatedat will be `null`.
-- Datetime in UTC [ISO 8601](https://pt.wikipedia.org/wiki/ISO_8601) format.
+- Datetime in UTC [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
 
 Example:
 

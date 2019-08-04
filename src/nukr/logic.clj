@@ -29,7 +29,16 @@
     :msg "Profile e-mail is required."}
    :profile-email-exists
    {:key "profile-email-exists"
-    :msg "Email address is already in use for another profile."}})
+    :msg "Email address is already in use for another profile."}
+   :network-over-capacity
+   {:key "network-over-capacity"
+    :msg "Network number of profiles limit is reached."}
+   :conn-limit-reached
+   {:key "conn-limit-reached"
+    :msg "Max number of connections reached."}
+   :conn-to-limit-reached
+   {:key "conn-to-limit-reached"
+    :msg "Connecting to profile max number of connections reached."}})
 
 (defn add-error 
   [data error]
