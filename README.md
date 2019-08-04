@@ -28,7 +28,7 @@ Create a new profile.
 
 | Status | Type                                         | Description         |
 |--------|----------------------------------------------|---------------------|
-| 201    | [profile-details-out](#profile-details-out)  | Created Profile .   |
+| 201    | [profile-details-out](#profile-details-out)  | Created profile.    |
 | 400    | [prof. input errors](#profile-input-errors)  | Invalid input data. |
 | 507    | [net. over capacity](#network-over-capacity) | Over capacity.      |
 
