@@ -392,7 +392,7 @@ Validation errors model is [core-error-coll](#core-error-coll) which consist in 
 
 ### Profile input errors
 
-The table bellow enumerate the possibles [core-error-item](#core-error-item) while [creating](#create-profile) or [editing](#edit-profile) profile by its key and condition.
+The table below enumerate the possibles [core-error-item](#core-error-item) while [creating](#create-profile) or [editing](#edit-profile) profile by its key and condition.
 
 | Key                      | Condition                                   |
 |--------------------------|---------------------------------------------|
@@ -423,7 +423,7 @@ Applies to:
 
 ### Connecting errors
 
-The table bellow enumerate the possibles [core-error-item](#core-error-item) while [connecting profiles](#connect-profiles) by its key and condition.
+The table below enumerate the possibles [core-error-item](#core-error-item) while [connecting profiles](#connect-profiles) by its key and condition.
 
 | Key                            | Condition                                   |
 |--------------------------------|---------------------------------------------|
