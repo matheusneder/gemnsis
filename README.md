@@ -181,7 +181,7 @@ Generate a list of new connection suggestions for a given profile id (on route).
 
 Reset database and build a sample network with some profiles and connections.
 
-	POST /v1/build-sample-network
+	POST /v1/build_sample_network
 	
 This route takes no parameters and responds with 200 status code with informational text.
 
