@@ -10,9 +10,9 @@
   (::bootstrap/service-fn (bootstrap/create-servlet service/service)))
 
 (deftest get-profiles-test
-  (testing "GET /v1/profiles/"
+  (testing "GET /v1/profiles"
     (println (:total (json/read-str
-                      (:body (response-for service :get "/v1/profiles/"))
+                      (:body (response-for service :get "/v1/profiles"))
                       :key-fn keyword)))))
 
 ; (deftest post-test

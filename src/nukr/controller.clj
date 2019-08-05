@@ -132,18 +132,19 @@
                        [(:profiles-already-connected logic/core-error)]
                        ;; --or--
                        [(:conn-limit-reached logic/core-error)] ;; profile1
+                       ;; --or--
                        [(:conn-to-limit-reached logic/core-error)]} ;; profile2"
   [profile1-id profile2-id]
   (log/debug :msg "connect-profiles! fired."
              :profile1-id profile1-id
-             :profile2-id profile2-id)  
+             :profile2-id profile2-id)
   (let [preconditions
         (logic/connecting-check-preconditions
          (database/read-all)
          profile1-id
          profile2-id)]
     (if (:errors preconditions)
-      (do 
+      (do
         (log/info :msg "connect-profiles! preconditions failed."
                   :profile1-id profile1-id
                   :profile2-id profile2-id

@@ -46,7 +46,7 @@
 
 ;; Routed functions
 
-;; POST /v1/profiles/
+;; POST /v1/profiles
 (defn post-profiles
   "Add a new profile to network."
   [request]
@@ -78,7 +78,7 @@
                   (-> request :path-params :id)
                   (-> request :json-params :id))))
 
-;; GET /v1/profiles/:id/suggestions/
+;; GET /v1/profiles/:id/suggestions
 (defn get-suggestions
   "Get connection suggestions for a given profile-id.
    Input  model is: {:id uuid} (from request path-params);
@@ -98,7 +98,7 @@
                   (-> request :path-params :id)
                   (:query-params request))))
 
-;; GET /v1/profiles/
+;; GET /v1/profiles
 (defn get-profiles
   "List profiles
    Input  model is: {:perpage int (optional deafault 10, limited to 50)
@@ -117,7 +117,7 @@
   (http-response
    (controller/get-profiles (:query-params request))))
 
-;; GET /v1/profiles/:id/connections/
+;; GET /v1/profiles/:id/connections
 (defn get-profile-connections
   "Get connections for a given profile-id.
    Input  model is: {:id uuid} (from request path-params);
@@ -196,19 +196,19 @@
                :get (conj common-interceptors `dump-database)]
               ["/v1"
                :delete (conj common-interceptors `reset-database)]
-              ["/v1/profiles/"
+              ["/v1/profiles"
                :get (conj common-interceptors `get-profiles)]
-              ["/v1/profiles/"
+              ["/v1/profiles"
                :post (conj common-interceptors `post-profiles)]
               ["/v1/profiles/:id"
                :put (conj common-interceptors `put-profiles)]
               ["/v1/profiles/:id"
                :get (conj common-interceptors `get-profile-details)]
-              ["/v1/profiles/:id/suggestions/"
+              ["/v1/profiles/:id/suggestions"
                :get (conj common-interceptors `get-suggestions)]
-              ["/v1/profiles/:id/connections/"
+              ["/v1/profiles/:id/connections"
                :get (conj common-interceptors `get-profile-connections)]
-              ["/v1/profiles/:id/connections/"
+              ["/v1/profiles/:id/connections"
                :post (conj common-interceptors `post-profile-connections)]})
 
 ;; service configuration

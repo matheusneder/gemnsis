@@ -174,40 +174,54 @@
              ;; transaction scope.
              distinct)))
 
+(def profile-max-connections 100)
+
 (defn connecting-check-preconditions
   "Check precodintions to connect profile1 and profile2:
    - profile 1 must exists;
    - profile 2 must exists;
    - profile 1 and 2 must not be already connected.
+   - profile 1 or profile 2 must not reach the profile-max-connections
    Output model is:
      {:errors 
-       [(:profile-not-found core-error)
-        --or--
-        (:could-not-connect-itself core-error)
-        --or--
-        (:to-connect-profile-not-found core-error)
-        --or-- 
-        (:profiles-already-connected core-error)]}
-     --or--
-     nil if precondtions ok."
+       [(:profile-not-found core-error)]
+       ;; --or--
+       [(:could-not-connect-itself core-error)]
+       ;; --or--
+       [(:to-connect-profile-not-found core-error)]
+       ;; --or-- 
+       [(:profiles-already-connected core-error)]
+       ;; --or--
+       [(:conn-limit-reached logic/core-error)] ;; profile 1
+       ;; --or--
+       [(:conn-to-limit-reached logic/core-error)]} ;; profile 2
+     ;; --or--
+     nil ;; if precondtions ok."
   [network profile1-id profile2-id]
   (let [profiles (:profiles network)
         profile1-model (-> profiles (get profile1-id))
         profile2-model (-> profiles (get profile2-id))]
     ;; check if profile1 exists
-    (if (nil? profile1-model)
+    (cond
+      (nil? profile1-model)
       {:errors [(:profile-not-found core-error)]}
       ;; check if profile 1 and 2 are not the same
-      (if (= profile1-id profile2-id)
-        {:errors [(:could-not-connect-itself core-error)]}
-        ;; check if profile 2 exists
-        (if (nil? profile2-model)
-          {:errors [(:to-connect-profile-not-found core-error)]}
-          ;; check if the profiles are not already connected
-          (if (some #(= profile2-id %) (:connections profile1-model))
-            {:errors [(:profiles-already-connected core-error)]}
-            ;; precondition passed, returning nil
-            nil))))))
+      (= profile1-id profile2-id)
+      {:errors [(:could-not-connect-itself core-error)]}
+      ;; check if profile 2 exists
+      (nil? profile2-model)
+      {:errors [(:to-connect-profile-not-found core-error)]}
+      ;; check if the profiles are not already connected
+      (some #(= profile2-id %) (:connections profile1-model))
+      {:errors [(:profiles-already-connected core-error)]}
+      ;; check if profile 1 reached profile-max-connections
+      (>= (count (:connections profile1-model)) profile-max-connections)
+      {:errors [(:conn-limit-reached core-error)]}
+      ;; check if profile 2 reached profile-max-connections
+      (>= (count (:connections profile2-model)) profile-max-connections)
+      {:errors [(:conn-to-limit-reached core-error)]}
+      ;; precondition passed, returning nil
+      :else nil)))
 
 (defn connect
   "Connect profile1 to profile2 and vice-versa.

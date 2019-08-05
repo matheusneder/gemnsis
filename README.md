@@ -16,7 +16,7 @@
 ### Create profile
 Create a new profile.
 
-	POST /v1/profiles/
+	POST /v1/profiles
 
 #### Parameters
 
@@ -91,7 +91,7 @@ Perform logical deletion of profile (flag it as deleted) for a given profile id 
 ### List profiles
 List profiles on network.
 
-	GET /v1/profiles/
+	GET /v1/profiles
 
 #### Parameters
 
@@ -108,7 +108,7 @@ List profiles on network.
 ### Connect profiles
 Connect a profile (from profile id on route) to another profile provided on body (json).
 
-	POST /v1/profiles/:id/connections/
+	POST /v1/profiles/:id/connections
 
 #### Parameters
 
@@ -147,7 +147,7 @@ Remove connection association for the given profile id and connid (the both on r
 ### Profile connections
 List connections for a given profile id (on route).
 
-	GET /v1/profiles/:id/connections/
+	GET /v1/profiles/:id/connections
 
 #### Parameters
 
@@ -166,7 +166,7 @@ List connections for a given profile id (on route).
 ### Connection suggestions
 Generate a list of new connection suggestions for a given profile id (on route).
 
-	GET /v1/profiles/:id/suggestions/
+	GET /v1/profiles/:id/suggestions
 
 #### Parameters
 
