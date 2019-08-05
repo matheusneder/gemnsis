@@ -96,25 +96,6 @@ Get the profile details for a given profile id (on route).
 | 200    | [profile-details-out](#profile-details-out) | Profile details.   |
 | 404    | [profile not found](#profile-not-found)     | Profile not found. |
 
-### Remove profile
-
-Perform logical deletion of profile (flag it as deleted) for a given profile id (on route). 
-
-	DELETE /v1/profiles/:id
-
-#### Parameters
-
-| Name | Type   | Location | Description         |
-|------|--------|----------|---------------------|
-| id   | `uuid` | path     | Profile identifier. |
-
-#### Responses
-
-| Status | Type                                        | Description        |
-|--------|---------------------------------------------|--------------------|
-| 200    | [profile-details-out](#profile-details-out) | Removed profile.   |
-| 404    | [profile not found](#profile-not-found)     | Profile not found. |
-
 ### List profiles
 
 List profiles on network.
@@ -153,26 +134,6 @@ Connect a profile (from profile id on route) to another profile provided on body
 | 200    | [profile-details-out](#profile-details-out)| New connection details.|
 | 400    | [connecting-errors](#connecting-errors)    | Invalid connection.    |
 | 404    | [profile not found](#profile-not-found)    | Profile not found.     |
-
-### Remove connection
-
-Remove connection association for the given profile id and connid (the both on route).
-
-	DELETE /v1/profiles/:id/connections/:connid
-	
-#### Parameters
-
-| Name   | Type   | Location | Description              |
-|--------|--------|----------|--------------------------|
-| id     | `uuid` | path     | Profile identifier.      |
-| connid | `uuid` | path     | Connection to remove id. |
-
-#### Responses
-
-| Status| Type                                       | Description             |
-|-------|--------------------------------------------|-------------------------|
-| 200   | [profile-details-out](#profile-details-out)| Removed connection.     |
-| 404   | [profile not found](#profile-not-found)    | Prof. or conn. not found|
 
 ### Profile connections
 
@@ -285,8 +246,6 @@ Applies to:
 - [Edit profile](#edit-profile) - `PUT /v1/profiles/:id`
 - [Profile details](#profile-details) - `GET /v1/profiles/:id`
 - [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
-- [Remove profile](#remove-profile) - `DELETE /v1/profiles/:id`
-- [Remove connection](#remove-connection) - `DELETE /v1/profiles/:id/connections/:connid`
 
 ### paginat-in
 
@@ -491,8 +450,6 @@ Applies to:
 - [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
 - [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions`
 - [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections`
-- [Remove profile](#remove-profile) - `DELETE /v1/profiles/:id`
-- [Remove connection](#remove-connection) - `DELETE /v1/profiles/:id/connections/:connid`
 
 ### Connecting errors
 
