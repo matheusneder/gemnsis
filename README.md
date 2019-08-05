@@ -2,18 +2,42 @@
 
 > Nukr is a prototype service that provides a REST API where we can simulate connections between people, and explore how we would offer new connection suggestions.
 
-## Getting Started
+## Build, run and tests
 
-1. Start the application: `lein run`
-2. Go to [localhost:8080](http://localhost:8080/) to see: `Hello World!`
-3. Read your app's source code at src/nukr/service.clj. Explore the docs of functions
-   that define routes and responses.
-4. Run your app's tests with `lein test`. Read the tests at test/nukr/service_test.clj.
-5. Learn more! See the [Links section below](#links).
+Nukr was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was created based on [pedestal service template](https://github.com/pedestal/pedestal/tree/master/service-template). To run tasks, at command line, `cd` to nukr root directory then:
 
-## Routes
+### Run tests
+
+	lein test
+	
+### Run nukr REST API
+
+	lein run
+	
+Web application will listen to 8080 port. If this port is not available, edit [service.clj](service.clj) (service configuration section close to end of file) in order to change it.
+
+REST API routes are described in depth at the [REST API Routes](#rest-api-routes) section. You may use [nukr.postman_collection.json](nukr.postman_collection.json) to bootstrap [postman](https://www.getpostman.com/) pre-configurated to nukr REST API routes.
+
+### Build standalone uberjar
+
+	lein uberjar
+	
+### Build [docker](https://www.docker.com/) image
+
+Build uberjar described at [build standalone uberjar](#build-standalone-uberjar) step above then:
+
+	sudo docker build -t nukr .
+	
+### Run docker container
+
+After executed [build standalone uberjar](#build-standalone-uberjar) and [build docker image](#build-docker-image) steps:
+
+	sudo docker run -p 8080:8080 nukr
+
+## REST API routes
 
 ### Create profile
+
 Create a new profile.
 
 	POST /v1/profiles
@@ -33,6 +57,7 @@ Create a new profile.
 | 507    | [net. over capacity](#network-over-capacity) | Over capacity.      |
 
 ### Edit profile
+
 Edit an existing profile.
 
 	PUT /v1/profiles/:id
@@ -53,6 +78,7 @@ Edit an existing profile.
 | 404    | [profile not found](#profile-not-found)     | Profile not found.  |
 
 ### Profile details
+
 Get the profile details for a given profile id (on route).
 
 	GET /v1/profiles/:id
@@ -71,6 +97,7 @@ Get the profile details for a given profile id (on route).
 | 404    | [profile not found](#profile-not-found)     | Profile not found. |
 
 ### Remove profile
+
 Perform logical deletion of profile (flag it as deleted) for a given profile id (on route). 
 
 	DELETE /v1/profiles/:id
@@ -89,6 +116,7 @@ Perform logical deletion of profile (flag it as deleted) for a given profile id 
 | 404    | [profile not found](#profile-not-found)     | Profile not found. |
 
 ### List profiles
+
 List profiles on network.
 
 	GET /v1/profiles
@@ -106,6 +134,7 @@ List profiles on network.
 | 200    | [profile-list-page-out](#profile-list-page-out) | Profile list. |
 
 ### Connect profiles
+
 Connect a profile (from profile id on route) to another profile provided on body (json).
 
 	POST /v1/profiles/:id/connections
@@ -126,6 +155,7 @@ Connect a profile (from profile id on route) to another profile provided on body
 | 404    | [profile not found](#profile-not-found)    | Profile not found.     |
 
 ### Remove connection
+
 Remove connection association for the given profile id and connid (the both on route).
 
 	DELETE /v1/profiles/:id/connections/:connid
@@ -145,6 +175,7 @@ Remove connection association for the given profile id and connid (the both on r
 | 404   | [profile not found](#profile-not-found)    | Prof. or conn. not found|
 
 ### Profile connections
+
 List connections for a given profile id (on route).
 
 	GET /v1/profiles/:id/connections
@@ -164,6 +195,7 @@ List connections for a given profile id (on route).
 | 404   | [profile not found](#profile-not-found)         | Profile not found. |
 
 ### Connection suggestions
+
 Generate a list of new connection suggestions for a given profile id (on route).
 
 	GET /v1/profiles/:id/suggestions
@@ -478,6 +510,7 @@ Applies to:
 - [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
 
 ### Network over capacity
+
 In order to network's healthiness garanties, total number of profiles is limited to 1000. The `network-over-capacity` error reason will be raised while trying to [create profile](#create-profile) and this limit was reached. A warnning log will be generated for this event in order to backend team get knowledge of the issue.
 
 | Key                     | Condition                                        |
@@ -486,35 +519,3 @@ In order to network's healthiness garanties, total number of profiles is limited
 
 Applies to:
 - [Create profile](#create-profile) - `POST /v1/profiles`
-
-## Configuration
-
-To configure logging see config/logback.xml. By default, the app logs to stdout and logs/.
-To learn more about configuring Logback, read its [documentation](http://logback.qos.ch/documentation.html).
-
-
-## Developing your service
-
-1. Start a new REPL: `lein repl`
-2. Start your service in dev-mode: `(def dev-serv (run-dev))`
-3. Connect your editor to the running REPL session.
-   Re-evaluated code will be seen immediately in the service.
-
-### [Docker](https://www.docker.com/) container support
-
-1. Configure your service to accept incoming connections (edit service.clj and add  ::http/host "0.0.0.0" )
-2. Build an uberjar of your service: `lein uberjar`
-3. Build a Docker image: `sudo docker build -t nukr .`
-4. Run your Docker image: `docker run -p 8080:8080 nukr`
-
-### [OSv](http://osv.io/) unikernel support with [Capstan](http://osv.io/capstan/)
-
-1. Build and run your image: `capstan run -f "8080:8080"`
-
-Once the image it built, it's cached.  To delete the image and build a new one:
-
-1. `capstan rmi nukr; capstan build`
-
-
-## Links
-* [Other Pedestal examples](http://pedestal.io/samples)
