@@ -6,9 +6,7 @@
    [clojure.data.json :as json]
    [nukr.service :as service]
    [clojure.tools.logging :as log]
-   [nukr.controller :as controller]
-   [nukr.database :as database]
-   [nukr.logic :as logic]))
+   [nukr.controller :as controller]))
 
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet service/service)))
@@ -42,7 +40,7 @@
 
 (deftest post-profiles-test
   (testing "POST /v1/profiles"
-    (database/clear!)
+    (controller/clear-database!)
     (let [result (response 
                   :post 
                   "/v1/profiles"
@@ -55,7 +53,7 @@
 
 (deftest post-profiles-invalid-model-test
   (testing "POST /v1/profiles"
-    (database/clear!)
+    (controller/clear-database!)
     (let [result (response
                   :post
                   "/v1/profiles"
@@ -64,11 +62,11 @@
       (is (= 400 (:status result))
           "FIXME")
       (is (some 
-           #(= (:profile-name-required logic/core-error ) %) 
+           #(= (:profile-name-required controller/core-error ) %) 
            (-> result :body :errors))
           "FIXME")
       (is (some
-           #(= (:profile-invalid-email logic/core-error ) %)
+           #(= (:profile-invalid-email controller/core-error ) %)
            (-> result :body :errors))
           "FIXME"))))
 
@@ -88,7 +86,7 @@
 
 (deftest put-profiles-id-test
   (testing "PUT /v1/profiles/:id"
-    (database/clear!)
+    (controller/clear-database!)
     (let [profile-id 
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           result (response
@@ -103,7 +101,7 @@
 
 (deftest put-profiles-id-invalid-model-test
   (testing "PUT /v1/profiles/:id"
-    (database/clear!)
+    (controller/clear-database!)
     (let [profile-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           result (response
@@ -114,17 +112,17 @@
       (is (= 400 (:status result))
           "FIXME")
       (is (some
-           #(= (:profile-name-required logic/core-error) %)
+           #(= (:profile-name-required controller/core-error) %)
            (-> result :body :errors))
           "FIXME")
       (is (some
-           #(= (:profile-invalid-email logic/core-error) %)
+           #(= (:profile-invalid-email controller/core-error) %)
            (-> result :body :errors))
           "FIXME"))))
 
 (deftest get-profiles-id-test
   (testing "GET /v1/profiles/:id"
-    (database/clear!)
+    (controller/clear-database!)
     (let [profile-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           result (response
@@ -138,8 +136,8 @@
 
 (deftest get-profiles-id-not-foundtest
   (testing "GET /v1/profiles/:id"
-    (database/clear!)
-    (let [profile-id (logic/uuid)
+    (controller/clear-database!)
+    (let [profile-id (controller/uuid)
           result (response
                   :get
                   (format "/v1/profiles/%s" profile-id))]
@@ -147,13 +145,13 @@
       (is (= 404 (:status result))
           "FIXME")
       (is (= 
-           (:profile-not-found logic/core-error) 
+           (:profile-not-found controller/core-error) 
            (-> result :body :errors first))
           "FIXME"))))
 
 (deftest post-profiles-id-connections-test
   (testing "POST /v1/profiles/:id/connections"
-    (database/clear!)
+    (controller/clear-database!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id
@@ -170,7 +168,7 @@
 
 (deftest get-profiles-id-suggestions-test
   (testing "GET /v1/profiles/:id/suggestions"
-    (database/clear!)
+    (controller/clear-database!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id
@@ -188,7 +186,7 @@
 
 (deftest get-profiles-id-connections-test
   (testing "GET /v1/profiles/:id/connections"
-    (database/clear!)
+    (controller/clear-database!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id

@@ -7,23 +7,22 @@
    [io.pedestal.log :as log]
    [io.pedestal.interceptor.error :as error-int]
    [clojure.data.json :as json]
-   [nukr.controller :as controller]
-   [nukr.logic :as logic]))
+   [nukr.controller :as controller]))
 
 ;; Helpers 
 
 (defn inspect-core-errors
   "Look for :errors list on result and return ring-reponse:
-   HTTP 404 when it contains :profile-not-found logic/core-error;
-   HTTP 507 when it contains :network-over-capacity logic/core-error;
+   HTTP 404 when it contains :profile-not-found controller/core-error;
+   HTTP 507 when it contains :network-over-capacity controller/core-error;
    HTTP 400 when it contains other kind of core-errors;
    nil      when :errors doesnt exists."
   [result]
   (if-let [errors (:errors result)]
     (cond
-      (some #(= (:profile-not-found logic/core-error) %) errors)
+      (some #(= (:profile-not-found controller/core-error) %) errors)
       (ring-resp/not-found result)
-      (some #(= (:network-over-capacity logic/core-error) %) errors)
+      (some #(= (:network-over-capacity controller/core-error) %) errors)
       (ring-resp/status (ring-resp/response result) 507)
       :else (ring-resp/bad-request result))
     nil))
@@ -159,7 +158,7 @@
   "Generate an identifier, log the ex linked to it. Expose id on response 
    to be able to track the error for an specific request on logs."
   [ctx ex]
-  (let [error-id (logic/uuid)]
+  (let [error-id (controller/uuid)]
     (log/error :msg "Internal error"
                :error-id error-id
                :ex ex)

@@ -244,3 +244,10 @@
                   :result result)
         result)
       (to-profile-analytic-model result))))
+
+;; aliases some logic/database items which is necessary in tests
+;; and service layer
+
+(def core-error logic/core-error)
+(def uuid logic/uuid)
+(def clear-database! database/clear!)
