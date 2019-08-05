@@ -112,31 +112,6 @@
 			"response": []
 		},
 		{
-			"name": "Remove profile",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/v1/profiles/:id",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"v1",
-						"profiles",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "d06c6599-828e-4c89-b722-325422428ac6"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Connect profiles",
 			"request": {
 				"method": "POST",
@@ -166,37 +141,6 @@
 						{
 							"key": "id",
 							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Remove connection",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/v1/profiles/:id/connections/:connid",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"v1",
-						"profiles",
-						":id",
-						"connections",
-						":connid"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "d06c6599-828e-4c89-b722-325422428ac6"
-						},
-						{
-							"key": "connid",
-							"value": "b077300a-a62d-4a39-b42e-46d7dcc8ba26"
 						}
 					]
 				}
@@ -304,7 +248,7 @@
 	],
 	"variable": [
 		{
-			"id": "54e8b884-132d-4e52-9799-07d17ac73bc5",
+			"id": "602fc31d-2fef-44b9-b38c-c05a4d1ca302",
 			"key": "baseUrl",
 			"value": "http://localhost:8080",
 			"type": "string"
