@@ -18,6 +18,8 @@ Web application will listen to 8080 port. If this port is not available, edit [s
 
 REST API routes are described in depth at the [REST API Routes](#rest-api-routes) section. You may use [nukr.postman_collection.json](nukr.postman_collection.json) to bootstrap [postman](https://www.getpostman.com/) pre-configurated to nukr REST API routes.
 
+In order to quickly get fun with REST API, you may invoke the [build sample network](#build-sample-network) to get it populate with some profiles and connections.
+
 ### Build standalone uberjar
 
 	lein uberjar
