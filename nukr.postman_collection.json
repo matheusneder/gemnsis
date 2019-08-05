@@ -222,6 +222,25 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Build sample network",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/build_sample_network",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"build_sample_network"
+					]
+				},
+				"description": "Reset database and build a sample network with some profiles and connections."
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -248,7 +267,7 @@
 	],
 	"variable": [
 		{
-			"id": "602fc31d-2fef-44b9-b38c-c05a4d1ca302",
+			"id": "cd6430ff-57b2-4ed6-bf42-508351b62b31",
 			"key": "baseUrl",
 			"value": "http://localhost:8080",
 			"type": "string"

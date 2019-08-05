@@ -7,7 +7,8 @@
    [io.pedestal.log :as log]
    [io.pedestal.interceptor.error :as error-int]
    [clojure.data.json :as json]
-   [nukr.controller :as controller]))
+   [nukr.controller :as controller]
+   [nukr.test-data :as test-data]))
 
 ;; Helpers 
 
@@ -41,7 +42,7 @@
 (defn post-profiles
   "Add a new profile to network."
   [request]
-  (log/debug :msg "post-profiles fired"
+  (log/debug :msg "post-profiles fired."
              :request request)
   (let [result (controller/add-profile! (:json-params request))]
     (or
@@ -53,7 +54,7 @@
 (defn put-profiles
   "Edit an existing profile."
   [request]
-  (log/debug :msg "put-profiles fired"
+  (log/debug :msg "put-profiles fired."
              :request request)
   (http-response (controller/update-profile!
                   (-> request :path-params :id)
@@ -63,7 +64,7 @@
 (defn post-profile-connections
   "Connect profiles."
   [request]
-  (log/debug :msg "post-profile-connections fired"
+  (log/debug :msg "post-profile-connections fired."
              :request request)
   (http-response (controller/connect-profiles!
                   (-> request :path-params :id)
@@ -83,7 +84,7 @@
      --or--
      HTTP 400: {:errors '({:key profile-not-found})}"
   [request]
-  (log/debug :msg "get-suggestions fired"
+  (log/debug :msg "get-suggestions fired."
              :request request)
   (http-response (controller/get-suggestions
                   (-> request :path-params :id)
@@ -122,7 +123,7 @@
      --or--
      HTTP 400: {:errors '({:key profile-not-found})}"
   [request]
-  (log/debug :msg "get-profile-connections fired"
+  (log/debug :msg "get-profile-connections fired."
              :request request)
   (http-response (controller/get-profile-connections
                   (-> request :path-params :id)
@@ -141,10 +142,21 @@
      --or--
      HTTP 400: {:errors '({:key profile-not-found})}"
   [request]
-  (log/debug :msg "get-profile-details fired"
+  (log/debug :msg "get-profile-details fired."
              :request request)
   (http-response (controller/get-profile-details
                   (-> request :path-params :id))))
+
+;; POST /v1/build_sample_network
+(defn build-sample-network
+  "Reset database and build a sample network with some profiles and
+   connections."
+  [request]
+  (log/debug :msg "build-sample-network fired."
+             :request request)
+  (test-data/build-sample-network)
+  (log/debug :msg "build-sample-network successfully built sample network.")  
+  (ring-resp/created "/v1/profiles" "Successfully built sample network."))
 
 ;; Error handling
 
@@ -156,7 +168,7 @@
 
 (defn catch-all-error-handler
   "Generate an identifier, log the ex linked to it. Expose id on response 
-   to be able to track the error for an specific request on logs."
+   to be able to track the error for a specific request on logs."
   [ctx ex]
   (let [error-id (controller/uuid)]
     (log/error :msg "Internal error"
@@ -183,7 +195,9 @@
   [service-error-handler (body-params/body-params) http/json-body])
 
 ;; routes
-(def routes #{["/v1/profiles"
+(def routes #{["/v1/build_sample_network"
+               :post (conj common-interceptors `build-sample-network)]
+              ["/v1/profiles"
                :get (conj common-interceptors `get-profiles)]
               ["/v1/profiles"
                :post (conj common-interceptors `post-profiles)]
