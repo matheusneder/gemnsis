@@ -10,14 +10,6 @@
    [nukr.controller :as controller]
    [nukr.logic :as logic]))
 
-(defn dump-database
-  [request]
-  (ring-resp/response (controller/dump-database)))
-
-(defn reset-database
-  [request]
-  (ring-resp/response (controller/reset-database)))
-
 ;; Helpers 
 
 (defn inspect-core-errors
@@ -192,11 +184,7 @@
   [service-error-handler (body-params/body-params) http/json-body])
 
 ;; routes
-(def routes #{["/v1"
-               :get (conj common-interceptors `dump-database)]
-              ["/v1"
-               :delete (conj common-interceptors `reset-database)]
-              ["/v1/profiles"
+(def routes #{["/v1/profiles"
                :get (conj common-interceptors `get-profiles)]
               ["/v1/profiles"
                :post (conj common-interceptors `post-profiles)]

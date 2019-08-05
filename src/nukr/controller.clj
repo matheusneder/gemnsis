@@ -244,11 +244,3 @@
                   :result result)
         result)
       (to-profile-analytic-model result))))
-
-(defn reset-database
-  []
-  (database/clear!))
-
-(defn dump-database 
-  []
-  (database/read-all))

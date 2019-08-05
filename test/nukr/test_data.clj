@@ -1,12 +1,13 @@
-(ns nukr.controller-test-data
+(ns nukr.test-data
   (:require 
    [clojure.test :refer :all]
-   [nukr.controller :as controller]))
+   [nukr.controller :as controller]
+   [nukr.database :as database]))
 
-(defn build-startup-network
+(defn build-sample-network
   []
-  (controller/reset-database)
-  ;; name taken from https://www.randomlists.com/
+  (database/clear!)
+  ;; names taken from https://www.randomlists.com/
   (let [jon-bentley (controller/add-profile!
                      {:name "Jon Bentley"
                       :email "jon.bentley@nukr.com"
