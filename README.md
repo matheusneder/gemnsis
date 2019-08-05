@@ -519,3 +519,23 @@ In order to network's healthiness garanties, total number of profiles is limited
 
 Applies to:
 - [Create profile](#create-profile) - `POST /v1/profiles`
+
+## Uncaught exceptions/errors handling
+
+If an unforeseen error happens, nukr will generate an identifier (uuid), log the error/exception linked to it and expose the generated id on response in order to provide a chance to track the error for a specific request, on logs.
+
+Response status code will be 500 (internal server error). Response model is:
+
+| Name    | Type     | Description                                |
+|---------|----------|--------------------------------------------|
+| errorid | `uuid`   | The generated error identifier.            |
+| msg     | `string` | Generic message for internal server error. |
+
+Example:
+
+```json
+{
+    "errorid": "4f168fd5-6791-4d7e-8d33-38172f692e8f",
+    "msg": "Internal error has occurred. Error details was logged, in order to see what happens, use errorid value to find the details on logs (look for :error-id key)."
+}
+```
