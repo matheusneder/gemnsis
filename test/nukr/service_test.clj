@@ -47,9 +47,9 @@
                   {:name "Foo" :email "foo@bar.com"})]
       (log/info "post-profiles-test" result)
       (is (= 201 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= "foo@bar.com" (-> result :body :email))
-          "FIXME"))))
+          "FIXME: profile email didnt match to expected."))))
 
 (deftest post-profiles-invalid-model-test
   (testing "POST /v1/profiles"
@@ -60,15 +60,15 @@
                   {:name "   " :email "foobar.com"})]
       (log/info "post-profiles-invalid-model-test" result)
       (is (= 400 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (some 
            #(= (:profile-name-required controller/core-error ) %) 
            (-> result :body :errors))
-          "FIXME")
+          "FIXME: errors (profile-name-required) didnt match to expected.")
       (is (some
            #(= (:profile-invalid-email controller/core-error ) %)
            (-> result :body :errors))
-          "FIXME"))))
+          "FIXME: errors (profile-invalid-email) didnt match to expected."))))
 
 (deftest get-profiles-test
   (testing "GET /v1/profiles"
@@ -78,11 +78,11 @@
                   "/v1/profiles")]
       (log/info "get-profiles-test" result)
       (is (= 200 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= 1 (-> result :body :total))
-          "FIXME")
+          "FIXME: result items count didnt match to expected.")
       (is (= "Foo" (-> result :body :items first :name))
-          "FIXME"))))
+          "FIXME: profile name didnt match to expected."))))
 
 (deftest put-profiles-id-test
   (testing "PUT /v1/profiles/:id"
@@ -95,9 +95,9 @@
                   {:name "Bar" :email "bar@foo.com"})]
       (log/info "put-profiles-id-test" result)
       (is (= 200 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= "bar@foo.com" (-> result :body :email))
-          "FIXME"))))
+          "FIXME: profile email didnt match to expected."))))
 
 (deftest put-profiles-id-invalid-model-test
   (testing "PUT /v1/profiles/:id"
@@ -110,15 +110,15 @@
                   {:name "" :email "barfoo.com"})]
       (log/info "put-profiles-id-test" result)
       (is (= 400 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (some
            #(= (:profile-name-required controller/core-error) %)
            (-> result :body :errors))
-          "FIXME")
+          "FIXME: errors (profile-name-required) didnt match to expected.")
       (is (some
            #(= (:profile-invalid-email controller/core-error) %)
            (-> result :body :errors))
-          "FIXME"))))
+          "FIXME: errors (profile-invalid-email) didnt match to expected."))))
 
 (deftest get-profiles-id-test
   (testing "GET /v1/profiles/:id"
@@ -130,9 +130,9 @@
                   (format "/v1/profiles/%s" profile-id))]
       (log/info "get-profiles-id-test" result)
       (is (= 200 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= "foo@bar.com" (-> result :body :email))
-          "FIXME"))))
+          "FIXME: profile email didnt match to expected."))))
 
 (deftest get-profiles-id-not-foundtest
   (testing "GET /v1/profiles/:id"
@@ -143,11 +143,11 @@
                   (format "/v1/profiles/%s" profile-id))]
       (log/info "get-profiles-id-test" result)
       (is (= 404 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= 
            (:profile-not-found controller/core-error) 
            (-> result :body :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest post-profiles-id-connections-test
   (testing "POST /v1/profiles/:id/connections"
@@ -162,9 +162,9 @@
                   {:id profile2-id})]
       (log/info "post-profiles-id-connections-test" result)
       (is (= 200 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= "bar@foo.com" (-> result :body :email))
-          "FIXME"))))
+          "FIXME: profile email didnt match to expected."))))
 
 (deftest get-profiles-id-suggestions-test
   (testing "GET /v1/profiles/:id/suggestions"
@@ -178,11 +178,11 @@
                   (format "/v1/profiles/%s/suggestions" profile1-id))]
       (log/info "get-profiles-id-suggestions-test" result)    
       (is (= 200 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= 1 (-> result :body :total))
-          "FIXME")
+          "FIXME: result items count didnt match to expected.")
       (is (= "Bar" (-> result :body :items first :name))
-          "FIXME"))))
+          "FIXME: profile name didnt match to expected."))))
 
 (deftest get-profiles-id-connections-test
   (testing "GET /v1/profiles/:id/connections"
@@ -197,8 +197,8 @@
                   (format "/v1/profiles/%s/connections" profile1-id))]
       (log/info "get-profiles-id-connections-test" result)
       (is (= 200 (:status result))
-          "FIXME")
+          "FIXME: status code didnt match to expected.")
       (is (= 1 (-> result :body :total))
-          "FIXME")
+          "FIXME: result items count didnt match to expected.")
       (is (= "Bar" (-> result :body :items first :name))
-          "FIXME"))))
+          "FIXME: profile name didnt match to expected."))))

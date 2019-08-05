@@ -10,7 +10,7 @@
           profile-source-id "321"
           result (logic/connect-single target-profile-model profile-source-id)]
       (is (= profile-source-id (-> result :connections first))
-          "FIXME"))))
+          "FIXME: profile-source-id didnt match to expected."))))
 
 (deftest connecting-check-preconditions-profile-not-found-test
   (testing "logic/connecting-check-preconditions [profile-not-found]"
@@ -25,7 +25,7 @@
              (-> result
                  :errors
                  first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest connecting-check-preconditions-to-connect-profile-not-found
   (testing "logic/connecting-check-preconditions [to-connect-profile-not-found]"
@@ -40,7 +40,7 @@
              (-> result
                  :errors
                  first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest connecting-check-preconditions-profiles-already-connected
   (testing "logic/connecting-check-preconditions [profiles-already-connected]"
@@ -58,7 +58,7 @@
              (-> result
                  :errors
                  first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest connecting-check-preconditions-could-not-connect-itself
   (testing "logic/connecting-check-preconditions [could-not-connect-itself]"
@@ -73,7 +73,7 @@
              (-> result
                  :errors
                  first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest connect-test
   (testing "logic/connect"
@@ -91,13 +91,13 @@
                              (get profile2-id)
                              :connections
                              first))
-          "FIXME")
+          "FIXME: profile1-id didnt match to expected.")
       (is (= profile2-id (-> result
                              :profiles
                              (get profile1-id)
                              :connections
                              first))
-          "FIXME"))))
+          "FIXME: profile2-id didnt match to expected."))))
 
 (def network-mock {:profiles
                    {"1" {:id "1"
@@ -142,18 +142,18 @@
     (let [result (logic/get-profile-rank (:profiles network-mock))]
       (log/info "get-profile-rank-test" result)
       (is (= "9" (-> result first :id))
-          "FIXME")
+          "FIXME: the first id on rank didnt match to expected.")
       (is (= "5" (-> result last :id))
-          "FIXME"))))
+          "FIXME: the last id on rank didnt match to expected."))))
 
 (deftest get-suggestions-test
   (testing "logic/get-suggestions"
     (let [result (logic/get-suggestions network-mock "3")]
       (log/info "get-suggestions-test" result)
       (is (= "2" (-> result first :id))
-          "FIXME")
+          "FIXME: the first id on rank didnt match to expected.")
       (is (= "5" (-> result last :id))
-          "FIXME"))))
+          "FIXME: the last id on rank didnt match to expected."))))
 
 (deftest get-suggestions-profile-not-found-test
   (testing "logic/get-suggestions [profile-not-found]"
@@ -161,7 +161,7 @@
       (log/info "get-suggestions-profile-not-found-test" result)
       (is (= (:profile-not-found logic/core-error) 
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest get-profile-connections-test
   (testing "logic/get-profile-connections"
@@ -170,7 +170,7 @@
       (is (=
            (-> network-mock :profiles (get "9") :connections)
            (map #(:id %) result))
-          "FIXME"))))
+          "FIXME: profile connections didnt match to expected."))))
 
 (deftest get-profile-connections-profile-not-found-test
   (testing "logic/get-profile-connections [profile-not-found]"
@@ -178,7 +178,7 @@
       (log/info "get-profile-connections-profile-not-found-test" result)
       (is (= (:profile-not-found logic/core-error) 
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest validate-profile-name-required-test
   (testing "logic/validate-profile-name [profile-name-required]"
@@ -186,7 +186,7 @@
       (log/info "validate-profile-name-required-test" result)
       (is (= (:profile-name-required logic/core-error)
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest validate-profile-email-required-test
   (testing "logic/validate-profile-email [profile-email-required]"
@@ -194,7 +194,7 @@
       (log/info "validate-profile-email-required-test" result)
       (is (= (:profile-email-required logic/core-error)
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest validate-profile-email-invalid-test
   (testing "logic/validate-profile-email [profile-invalid-email]"
@@ -202,7 +202,7 @@
       (log/info "validate-profile-email-invalid-test" result)
       (is (= (:profile-invalid-email logic/core-error)
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest validate-profile-email-uniqueness-test
   (testing "logic/validate-profile-email-uniqueness"
@@ -212,7 +212,7 @@
       (log/info "validate-profile-email-uniqueness-test" result)
       (is (= (:profile-email-exists logic/core-error)
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest profile-check-preconditions-invalid-model-test
   (testing "logic/profile-check-preconditions [invalid model scenario]"
@@ -223,7 +223,7 @@
       (log/info "profile-check-preconditions-invalid-model-test" result)
       (is (= (:profile-name-required logic/core-error)
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest profile-check-preconditions-duplicated-email-test
   (testing "logic/profile-check-preconditions [duplicated email scenario]"
@@ -234,7 +234,7 @@
       (log/info "profile-check-preconditions-duplicated-email-test" result)
       (is (= (:profile-email-exists logic/core-error)
              (-> result :errors first))
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest profile-check-preconditions-ok-test
   (testing "logic/profile-check-preconditions [duplicated email scenario]"
@@ -244,19 +244,19 @@
            {})]
       (log/info "profile-check-preconditions-ok-test" result)
       (is (= "Foo" (:name result))
-          "FIXME"))))
+          "FIXME: profile name didnt match to expected."))))
 
 (deftest validate-network-capacity-ok-test
   (testing "logic/validate-network-capacity [ok scenario]"
     (let [result (logic/validate-network-capacity {} 1)]
       (is (= nil result)
-          "FIXME"))))
+          "FIXME: result didnt match to expected (nil)"))))
 
 (deftest validate-network-capacity-over-capacity-test
   (testing "logic/validate-network-capacity [over-capacity scenario]"
     (let [result (logic/validate-network-capacity {:name "Foo"} 1)]
       (is (= {:errors [(:network-over-capacity logic/core-error)]} result)
-          "FIXME"))))
+          "FIXME: errors didnt match to expected."))))
 
 (deftest new-profile-test
   (testing "logic/new-profile"
@@ -265,7 +265,7 @@
                               :email "foo@bar.com"})]
       (log/info "new-profile-test" result)
       (is (= "foo@bar.com" (:email result))
-          "FIXME"))))
+          "FIXME: profile email didnt match to expected."))))
 
 (deftest update-profile-test
   (testing "logic/update-profile"
@@ -277,4 +277,4 @@
             :email "foo@bar.com"})]
       (log/info "update-profile-test" result)
       (is (= "foo@bar.com" (:email result))
-          "FIXME"))))
+          "FIXME: profile email didnt match to expected."))))
