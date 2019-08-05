@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "0e5849c2-44f7-430e-93fc-9ba0c8865d82",
+		"name": "nukr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Foo\",\n\t\"email\": \"foo@bar.com\",\n\t\"visible\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List profiles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit profile",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Foo\",\r\n    \"email\": \"foo@bar.com\",\r\n    \"visible\": false\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove profile",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "d06c6599-828e-4c89-b722-325422428ac6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Connect profiles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\": \"b40c410b-f4b4-4800-b1b2-3c3d39446c23\"}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id/connections",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id",
+						"connections"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove connection",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id/connections/:connid",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id",
+						"connections",
+						":connid"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "d06c6599-828e-4c89-b722-325422428ac6"
+						},
+						{
+							"key": "connid",
+							"value": "b077300a-a62d-4a39-b42e-46d7dcc8ba26"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile connections",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id/connections?",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id",
+						"connections"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "perpage",
+							"value": "5",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "b40c410b-f4b4-4800-b1b2-3c3d39446c23"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Connection suggestions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles/:id/suggestions?",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						":id",
+						"suggestions"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "perpage",
+							"value": "5",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "b40c410b-f4b4-4800-b1b2-3c3d39446c23"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d53e9f15-408b-4dd6-a1b7-b97e2c9195bc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e15face4-6afb-4d16-ab2a-957964460a20",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "54e8b884-132d-4e52-9799-07d17ac73bc5",
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
