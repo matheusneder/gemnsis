@@ -244,7 +244,7 @@
                 profile2-id
                 (connect-single profile2-model profile1-id))))))
 
-(defn get-degree-sequence
+(defn get-profile-rank
   "Degree sequence is profile list descending ordered by connection count."
   [profiles]
   (sort-by #(* -1 (count (:connections %)))
@@ -253,8 +253,8 @@
 (defn suggestion-conditions
   "Check if a candidate (profile) should be suggested as 
    connection to profile, accordding to these conditions:
-   - candidate suggestibleproperty  must be true
-   - candidate is not the profile
+   - candidate visible property  must be true
+   - candidate is not the profile itself
    - candidate and profile is not already connected."
   [candidate profile]
   (let [profile-id (:id profile)
@@ -272,7 +272,7 @@
   [network profile-id]
   (let [profiles (:profiles network)
         profile (get profiles profile-id)
-        rank (get-degree-sequence profiles)]
+        rank (get-profile-rank profiles)]
     (if (nil? profile)
       ;; the given profile-id NOT found
       {:errors [(:profile-not-found core-error)]}

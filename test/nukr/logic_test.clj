@@ -137,10 +137,10 @@
                          :visible false
                          :connections '("2" "3" "4" "6" "7" "8")}}})
 
-(deftest get-degree-sequence-test
-  (testing "logic/get-degree-sequence"
-    (let [result (logic/get-degree-sequence (:profiles network-mock))]
-      (log/info "get-degree-sequence-test" result)
+(deftest get-profile-rank-test
+  (testing "logic/get-profile-rank"
+    (let [result (logic/get-profile-rank (:profiles network-mock))]
+      (log/info "get-profile-rank-test" result)
       (is (= "9" (-> result first :id))
           "FIXME")
       (is (= "5" (-> result last :id))
