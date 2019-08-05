@@ -471,14 +471,14 @@ The table below enumerate the possibles [core-error-item](#core-error-item) whil
 | `to-connect-profile-not-found` | Trying to connect to a nonexistent profile. |
 | `could-not-connect-itself`     | Trying to connect to itself.                |
 | `profiles-already-connected`   | Profiles are already connected.             |
-| `conn-limit-reached`           | Max number of connections reached (1000).   |
+| `conn-limit-reached`           | Max number of connections reached (100).    |
 | `conn-to-limit-reached`        | Connecting to max number of conn. reached.  |
 
 Applies to:
 - [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections/`
 
 ### Network over capacity
-In order to network's healthiness garanties, total number of profiles is limited to 10000. The `network-over-capacity` error reason will be raised while trying to [create profile](#create-profile) and this limit was reached. A warnning log will be generated for this event in order to backend team get knowledge of the issue.
+In order to network's healthiness garanties, total number of profiles is limited to 1000. The `network-over-capacity` error reason will be raised while trying to [create profile](#create-profile) and this limit was reached. A warnning log will be generated for this event in order to backend team get knowledge of the issue.
 
 | Key                     | Condition                                        |
 |-------------------------|--------------------------------------------------|

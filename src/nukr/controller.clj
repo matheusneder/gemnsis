@@ -3,9 +3,12 @@
    [io.pedestal.log :as log]
    [nukr.database :as database]
    [nukr.logic :as logic]
-   [clojure.math.numeric-tower :as math]))
+   [nukr.components :as components]))
+
+;; Output models helpers
 
 (defn to-profile-analytic-model
+  "Produce the profile details output model."
   [profile]
   {:id (:id profile)
    :name (:name profile)
@@ -15,6 +18,13 @@
    :updatedat (:updated-at profile)
    :connections (count (:connections profile))})
 
+(defn profile-sintetic-projection
+  "Produce a list of {:id :name}."
+  [profiles]
+  (map #(select-keys % [:id :name]) profiles))
+
+;; the controller functions
+
 (defn add-profile!
   "Add a new profile to network.
    Input  model is: {:name string 
@@ -23,17 +33,15 @@
    Output model is 
      - success: see to-profile-analytic-model function.
      - error: {:errors [(:network-over-capacity logic/core-error)]
-                        --or--
+                       ;; --or--
                        [(:profile-email-exists logic/core-error)]
-                        --or--
+                       ;; --or one or two of below items--
                        [(:profile-name-required logic/core-error)
-                        --and/or--
-                        [(:profile-email-required logic/core-error)
-                         --or--
-                         (:profile-invalid-email logic/core-error)]]}"
+                        (:profile-email-required logic/core-error)
+                        (:profile-invalid-email logic/core-error)]}"
   [profile]
-  ("nil")
-  (log/debug :msg "add-profile! fired." :profile profile)
+  (log/debug :msg "add-profile! fired." 
+             :profile profile)
   (let [profile-or-error
         (logic/profile-check-preconditions
          profile
@@ -75,14 +83,12 @@
    Output model is 
      - success: see to-profile-analytic-model function.
      - error: {:errors [(:profile-not-found logic/core-error)]
-                        --or--
+                       ;; --or--
                        [(:profile-email-exists logic/core-error)]
-                        --or--
+                       ;; --or one or two of below items--
                        [(:profile-name-required logic/core-error)
-                        --and/or--
-                        [(:profile-email-required logic/core-error)
-                         --or--
-                         (:profile-invalid-email logic/core-error)]]}"
+                        (:profile-email-required logic/core-error)
+                        (:profile-invalid-email logic/core-error)]}"
   [profile-id profile]
   (log/debug :msg "update-profile! fired."  
              :profile-id profile-id
@@ -111,165 +117,131 @@
             (to-profile-analytic-model new-profile)))))))
 
 (defn connect-profiles!
+  "Connect two profiles to each other.
+   Input  model is 
+     - profile1-id: uuid
+     - profile2-id: uuid
+   Output model is 
+     - success: profile2-id details, see to-profile-analytic-model function.
+     - error: {:errors [(:profile-not-found logic/core-error)] ;; profile1 
+                       ;; --or--
+                       [(:to-connect-profile-not-found logic/core-error)] ;; profile2
+                       ;; --or--
+                       [(:could-not-connect-itself logic/core-error)]
+                       ;; --or--
+                       [(:profiles-already-connected logic/core-error)]
+                       ;; --or--
+                       [(:conn-limit-reached logic/core-error)] ;; profile1
+                       [(:conn-to-limit-reached logic/core-error)]} ;; profile2"
   [profile1-id profile2-id]
+  (log/debug :msg "connect-profiles! fired."
+             :profile1-id profile1-id
+             :profile2-id profile2-id)  
   (let [preconditions
         (logic/connecting-check-preconditions
          (database/read-all)
          profile1-id
          profile2-id)]
     (if (:errors preconditions)
-      preconditions
+      (do 
+        (log/info :msg "connect-profiles! preconditions failed."
+                  :profile1-id profile1-id
+                  :profile2-id profile2-id
+                  :result preconditions)
+        preconditions)
       (let [result
             (database/connect! logic/connect profile1-id profile2-id)]
+        (log/debug :msg "connect-profiles! successfully connected profiles."
+                   :profile1-id profile1-id
+                   :profile2-id profile2-id)
         (to-profile-analytic-model (get (:profiles result) profile2-id))))))
-
-(defn limit
-  "If val greater than max, return max; 
-   Returns val otherwise."
-  [val max]
-  (if (> val max)
-    max
-    val))
-
-(defn try-parse-int 
-  [val default-val]
-  "Try to parse val as integer then returns it;
-   If val is nil or not a valid integer then returns default-val."
-  (let [provided-val 
-        (if (nil? val) 
-          ;; keep nil if nil provided
-          nil 
-          ;; non nil val was provided
-          ;; so reading it
-          (read-string val))]
-    (if (integer? provided-val)
-      provided-val
-      default-val)))
-
-(def paginate-items-per-page-max 50)
-(def paginate-items-per-page-default 10)
-
-(defn paginate 
-  "Paginate a collection result. 
-   Input  model is: 
-    - paginate-params {:page int (optional, default 1)
-                       :perpage int (optional, default 
-                        paginate-items-per-page-default, 
-                        limited to paginate-items-per-page-max)};
-    - coll The collection;
-   Output model is: {:total int (total items of collection)
-                     :showing int (number of items in current page)
-                     :page int (current page number, starting at 1)
-                     :pages int (number of pages for the given perpage value)
-                     :dropping int (number of dropping/skiping items)
-                     :items '(collection) (collection's slice 
-                                           for the given page value)}"
-  [paginate-params coll]
-  (let [items-per-page (-> paginate-params
-                           :perpage
-                           (try-parse-int paginate-items-per-page-default)
-                           (limit paginate-items-per-page-max))
-        current-page (try-parse-int (:page paginate-params) 1)
-        total-items (count coll)
-        total-pages (math/ceil (/ total-items items-per-page))
-        dropping (* (dec current-page) items-per-page)
-        items (->> coll
-                   (drop dropping)
-                   (take items-per-page))]
-    {:total total-items
-     :showing (count items)
-     :page current-page
-     :pages total-pages
-     :dropping dropping
-     :items items}))
-
-(defn profile-sintetic-projection
-  [profiles]
-  (map #(select-keys % [:id :name]) profiles))
 
 (defn get-profiles
   "Get network profile (paginated).
-   Input  model is: {:page int (optional, default 1)
-                     :perpage int (optional, default 
-                      paginate-items-per-page-default, 
-                      limited to paginate-items-per-page-max)};
-   Output model is: {:total int (total items of collection)
-                     :showing int (number of items in current page)
-                     :page int (current page number, starting at 1)
-                     :pages int (number of pages for the given perpage value)
-                     :dropping int (number of dropping/skiping items)
-                     :items '({:id uuid :name string})}"
+   For input/output models, see components/paginate function.
+   For output model items, see profile-sintetic-projection function."
   [paginate-params]
+  (log/debug :msg "get-profiles fired.")
   (->> (-> (database/read-all)
            :profiles
            vals)
        profile-sintetic-projection
-       (paginate paginate-params)))
+       (components/paginate paginate-params)))
 
 (defn get-suggestions
   "Get connection suggestions for a given profile-id.
    Input  model is: 
-    - profile-id uuid;
-    - paginate-params {:page int (optional, default 1)
-                       :perpage int (optional, default
-                        paginate-items-per-page-default
-                        limited to paginate-items-per-page-max)};
-   Output model is: {:total int (total items of collection)
-                     :showing int (number of items in current page)
-                     :page int (current page number, starting at 1)
-                     :pages int (number of pages for the given perpage value)
-                     :dropping int (number of dropping/skiping items)
-                     :items '({:id uuid :name string})}
-                     --or--
-                     {:errors '({:key profile-not-found})}"
+     - profile-id uuid;
+     - paginate-params: see components/paginate function
+   Output model is:
+     - success: see components/paginate function; for items, 
+                see profile-sintetic-projection function.
+     - error: {:errors [{:key profile-not-found}]}"
   [profile-id paginate-params]
+  (log/debug :msg "get-suggestions fired."
+             :profile-id profile-id
+             :paginate-params paginate-params)
   (let [result (logic/get-suggestions (database/read-all) profile-id)]
     (if (:errors result)
-      result
-      (->> result
-           profile-sintetic-projection
-           (paginate paginate-params)))))
+      (do
+        (log/info :msg "get-suggestions preconditions failed."
+                  :profile-id profile-id
+                  :paginate-params paginate-params
+                  :result result)
+        result)
+      (do
+        (log/debug :msg "get-suggestions successfully generated suggestion list."
+                   :profile-id profile-id
+                   :num-of-generated-suggestions (count result))
+        (->> result
+             profile-sintetic-projection
+             (components/paginate paginate-params))))))
 
 (defn get-profile-connections
   "Get connections for a given profile-id.
    Input  model is: 
-    - profile-id uuid;
-    - paginate-params {:page int (optional, default 1)
-                       :perpage int (optional, default
-                        paginate-items-per-page-default
-                        limited to paginate-items-per-page-max)};
-   Output model is: {:total int (total items of collection)
-                     :showing int (number of items in current page)
-                     :page int (current page number, starting at 1)
-                     :pages int (number of pages for the given perpage value)
-                     :dropping int (number of dropping/skiping items)
-                     :items '({:id uuid :name string})}
-                     --or--
-                     {:errors '({:key profile-not-found})}"
+     - profile-id uuid;
+     - paginate-params: see components/paginate function
+   Output model is:
+     - success: see components/paginate function; for items, 
+                see profile-sintetic-projection function.
+     - error: {:errors [{:key profile-not-found}]}"
   [profile-id paginate-params]
+  (log/debug :msg "get-profile-connections fired."
+             :profile-id profile-id
+             :paginate-params paginate-params)  
   (let [result (logic/get-profile-connections 
                 (database/read-all) profile-id)]
     (if (:errors result)
-      result
-      (->> result
-           profile-sintetic-projection
-           (paginate paginate-params)))))
+      (do
+        (log/info :msg "get-profile-connections preconditions failed."
+                  :profile-id profile-id
+                  :paginate-params paginate-params)
+        result)
+      (do
+        (log/debug :msg "get-profile-connections successfully returned."
+                   :profile-id profile-id
+                   :num-of-profile-connections (count result))
+        (->> result
+             profile-sintetic-projection
+             (components/paginate paginate-params))))))
 
 (defn get-profile-details
   "Get connections for a given profile-id.
    Input  model is: uuid;
-   Output model is: {:id uuid
-                     :name string
-                     :email string
-                     :visible bool
-                     :create date
-                     :connections int}
-                    --or--
-                    {:errors '({:key profile-not-found})}"
+   Output model is: 
+     - success: see to-profile-analytic-model function.
+     - error: {:errors [(:profile-not-found logic/core-error)]"
   [profile-id]
+  (log/debug :msg "get-profile-details fired."
+             :profile-id profile-id)  
   (let [result (database/read-profile profile-id)]
     (if (nil? result)
-      {:errors [(:profile-not-found logic/core-error)]}
+      (let [result {:errors [(:profile-not-found logic/core-error)]}]
+        (log/info :msg "get-profile-details preconditions failed."
+                  :profile-id profile-id
+                  :result result)
+        result)
       (to-profile-analytic-model result))))
 
 (defn reset-database

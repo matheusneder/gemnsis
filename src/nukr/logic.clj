@@ -99,7 +99,7 @@
       validate-profile-name
       validate-profile-email))
 
-(def network-capacity-max-profiles 10)
+(def network-capacity-max-profiles 1000)
 
 (defn validate-network-capacity
   "Validate if network capacity support a new profile."
