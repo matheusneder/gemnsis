@@ -14,7 +14,7 @@ Nukr was written in [Clojure](https://clojure.org) and it uses [Leiningen](https
 
 	lein run
 	
-Web application will listen to 8080 port. If this port is not available, edit [service.clj](service.clj) (service configuration section close to end of file) in order to change it.
+Web application will listen to 8080 port. If this port is not available, edit [src/nukr/service.clj](src/nukr/service.clj) (service configuration section close to end of file) in order to change it.
 
 REST API routes are described in depth at the [REST API Routes](#rest-api-routes) section. You may use [nukr.postman_collection.json](nukr.postman_collection.json) to bootstrap [postman](https://www.getpostman.com/) pre-configurated to nukr REST API routes.
 
