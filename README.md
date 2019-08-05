@@ -175,6 +175,14 @@ Generate a list of new connection suggestions for a given profile id (on route).
 | 200    | [profile-list-page-out](#profile-list-page-out)| Suggestion list.   |
 | 404    | [profile not found](#profile-not-found)        | Profile not found. |
 
+### Build sample network
+
+Reset database and build a sample network with some profiles and connections.
+
+	POST /v1/build-sample-network
+	
+This route takes no parameters and responds with 200 status code with informational text.
+
 ## Models
 
 ### profile-in
