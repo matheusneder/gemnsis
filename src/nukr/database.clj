@@ -14,9 +14,7 @@
                   (assoc 
                    (:profiles database) 
                    (:id profile-model) 
-                   profile-model)
-                  :connection-rank
-                  (assoc (:connection-rank database) (:id profile-model) 0)))
+                   profile-model)))
          profile-model))
 
 (defn read-all
