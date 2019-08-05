@@ -1,6 +1,6 @@
-# nukr
+# Nukr, a new social media product by Nu Everything S/A.
 
-FIXME
+> Nukr is a prototype service that provides a REST API where we can simulate connections between people, and explore how we would offer new connection suggestions.
 
 ## Getting Started
 

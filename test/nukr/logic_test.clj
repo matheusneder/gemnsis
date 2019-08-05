@@ -246,6 +246,18 @@
       (is (= "Foo" (:name result))
           "FIXME"))))
 
+(deftest validate-network-capacity-ok-test
+  (testing "logic/validate-network-capacity [ok scenario]"
+    (let [result (logic/validate-network-capacity {} 1)]
+      (is (= nil result)
+          "FIXME"))))
+
+(deftest validate-network-capacity-over-capacity-test
+  (testing "logic/validate-network-capacity [over-capacity scenario]"
+    (let [result (logic/validate-network-capacity {:name "Foo"} 1)]
+      (is (= {:errors [(:network-over-capacity logic/core-error)]} result)
+          "FIXME"))))
+
 (deftest new-profile-test
   (testing "logic/new-profile"
     (let [result 

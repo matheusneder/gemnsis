@@ -20,25 +20,73 @@
    Input  model is: {:name string 
                      :email string 
                      :visible bool (optional, default true)};
-   Output model is: {:id uuid 
-                     :name string 
-                     :email string 
-                     :suggestigle bool
-                     :created date}"
+   Output model is 
+     - success: see to-profile-analytic-model function.
+     - error: {:errors [(:network-over-capacity logic/core-error)]
+                        --or--
+                       [(:profile-email-exists logic/core-error)]
+                        --or--
+                       [(:profile-name-required logic/core-error)
+                        --and/or--
+                        [(:profile-email-required logic/core-error)
+                         --or--
+                         (:profile-invalid-email logic/core-error)]]}"
   [profile]
+  ("nil")
+  (log/debug :msg "add-profile! fired." :profile profile)
   (let [profile-or-error
         (logic/profile-check-preconditions
          profile
          (:profiles (database/read-all)))]
     (if (:errors profile-or-error)
-      ;; return errors
-      profile-or-error
+      (do
+        ;; Look for :network-over-capacity condition
+        (if (some
+             #(= (:network-over-capacity logic/core-error) %)
+             (:errors profile-or-error))
+          ;; then log warn if it happened
+          (log/warn
+           :msg "Network over capacity while trying to add profile."
+           :profile profile)
+          ;; log info for other kinds of precondition error
+          (log/info
+           :msg "add-profile! preconditions failed."
+           :profile profile
+           :result profile-or-error))
+        ;; return errors
+        profile-or-error)
       (let [new-profile (logic/new-profile profile)]
+        (log/debug 
+         :msg "add-profile! preconditions ok, saving the new profile."
+         :new-profile new-profile)
         (database/save-profile! new-profile)
+        (log/debug
+         :msg "add-profile! successfully saved new-profile."
+         :new-profile new-profile)        
         (to-profile-analytic-model new-profile)))))
 
 (defn update-profile!
+  "Update an existing profile.
+   Input  model is 
+     - profile-id: uuid
+     - profile: {:name string 
+                 :email string 
+                 :visible bool (optional, default true)};
+   Output model is 
+     - success: see to-profile-analytic-model function.
+     - error: {:errors [(:profile-not-found logic/core-error)]
+                        --or--
+                       [(:profile-email-exists logic/core-error)]
+                        --or--
+                       [(:profile-name-required logic/core-error)
+                        --and/or--
+                        [(:profile-email-required logic/core-error)
+                         --or--
+                         (:profile-invalid-email logic/core-error)]]}"
   [profile-id profile]
+  (log/debug :msg "update-profile! fired."  
+             :profile-id profile-id
+             :profile profile)
   (let [old-profile (database/read-profile profile-id)]
     (if (nil? old-profile)
       {:errors [(:profile-not-found logic/core-error)]}
@@ -47,10 +95,19 @@
              profile
              (dissoc (:profiles (database/read-all)) profile-id))]
         (if (:errors profile-or-error)
-          ;; return errors
-          profile-or-error
+          (do
+            (log/info
+             :msg "update-profile! preconditions failed."
+             :profile-id profile-id
+             :profile profile
+             :result profile-or-error)
+            ;; return errors
+            profile-or-error)
           (let [new-profile (logic/update-profile old-profile profile)]
             (database/save-profile! new-profile)
+            (log/debug
+             :msg "update-profile! successfully updated profile."
+             :new-profile new-profile)
             (to-profile-analytic-model new-profile)))))))
 
 (defn connect-profiles!

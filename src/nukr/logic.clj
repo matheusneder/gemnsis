@@ -70,9 +70,8 @@
        ;; look for regex validation only if email is not blank
        ;; in order to avoid to add two errors for the same 
        ;; field.      
-      (if
-       (re-matches #"^[a-z0-9.+_-]+@[a-z0-9]{2,}(\.[a-z0-9]{2,})+$"
-                   (:email profile))
+      (if (re-matches #"^[a-z0-9.+_-]+@[a-z0-9]{2,}(\.[a-z0-9]{2,})+$"
+                      (:email profile))
         ;; valid: matches regex pattern
         profile
         ;; invalid: didnt match regex pattern
@@ -100,15 +99,27 @@
       validate-profile-name
       validate-profile-email))
 
+(def network-capacity-max-profiles 10)
+
+(defn validate-network-capacity
+  "Validate if network capacity support a new profile."
+  [profile-coll network-capacity-max-profiles]
+  (if (>= (count profile-coll) network-capacity-max-profiles)
+    ;; reached max profiles
+    {:errors [(:network-over-capacity core-error)]}
+    ;; capacity ok
+    nil))
+
 (defn profile-check-preconditions
   "Check profile preconditions by first check model validation using
    profile-validate-model function. If model was valid, it will check for
-   email uniqueness over network."
+   network capacity then email uniqueness over network."
   [profile profile-coll]
   (let [checked-profile (profile-validate-model profile)]
     (if (:errors checked-profile)
       {:errors (:errors checked-profile)}
-      (or
+      (or 
+       (validate-network-capacity profile-coll network-capacity-max-profiles)
        (validate-profile-email-uniqueness profile profile-coll)
        profile))))
 

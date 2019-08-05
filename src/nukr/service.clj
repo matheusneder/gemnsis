@@ -1,11 +1,14 @@
 (ns nukr.service
-  (:require 
+  (:require
    [io.pedestal.http :as http]
    [io.pedestal.http.route :as route]
    [io.pedestal.http.body-params :as body-params]
    [ring.util.response :as ring-resp]
    [io.pedestal.log :as log]
-   [nukr.controller :as controller]))
+   [io.pedestal.interceptor.error :as error-int]
+   [clojure.data.json :as json]
+   [nukr.controller :as controller]
+   [nukr.logic :as logic]))
 
 (defn about-page
   [request]
@@ -21,14 +24,33 @@
   [request]
   (ring-resp/response (controller/reset-database)))
 
+(defn inspect-core-errors
+  "Look for :errors list on result and return ring-reponse:
+   HTTP 404 when it contains :profile-not-found logic/core-error;
+   HTTP 507 when it contains :network-over-capacity logic/core-error;
+   HTTP 400 when it contains other kind of core-errors;
+   nil      when :errors doesnt exists."
+  [result]
+  (if-let [errors (:errors result)]
+    (cond
+      (some #(= (:profile-not-found logic/core-error) %) errors)
+      (ring-resp/not-found result)
+      (some #(= (:network-over-capacity logic/core-error) %) errors)
+      (ring-resp/status (ring-resp/response result) 507)
+      :else (ring-resp/bad-request result))
+    nil))
+
 (defn post-profiles
+  "Add a new profile to network."
   [request]
-  (log/info :msg request)
+  (log/debug
+   :msg "post-profiles fired"
+   :request request)
   (let [result (controller/add-profile! (:json-params request))]
-    (if (:errors result)
-      (ring-resp/bad-request result)
-      (ring-resp/created 
-       (format "/v1/profiles/%s" (:id result)) result))))
+    (or
+     (inspect-core-errors result)
+     (ring-resp/created
+      (format "/v1/profiles/%s" (:id result)) result))))
 
 (defn put-profiles
   [request]
@@ -129,10 +151,40 @@
       (ring-resp/bad-request result)
       (ring-resp/response result))))
 
+(def internal-error-msg
+   (str
+    "Internal error has occurred. Error details was logged, "
+    "in order to see what happens, use errorid value to find "
+    "the details on logs (look for :error-id key)."))
+
+(defn catch-all-error-handler
+  "Generate an identifier, log the ex linked to it. Expose id on response 
+   to be able to track the error for an specific request on logs."
+  [ctx ex]
+  (let [error-id (logic/uuid)]
+    (log/error :msg "Internal error"
+               :error-id error-id
+               :ex ex)
+    (assoc ctx
+           :response
+           {:status 500
+            :headers {"Content-Type" "application/json"}
+            :body
+            (json/write-str
+             {:errorid error-id
+              :msg internal-error-msg})})))
+
+(def service-error-handler
+  "catch-all error handler"
+  (error-int/error-dispatch
+   [ctx ex]
+   :else
+   (catch-all-error-handler ctx ex)))
+
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
 ;; apply to / and its children (/about).
-(def common-interceptors [(body-params/body-params) http/json-body])
+(def common-interceptors [service-error-handler (body-params/body-params) http/json-body])
 
 ;; Tabular routes
 (def routes #{["/v1"
