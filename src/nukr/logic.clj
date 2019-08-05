@@ -59,23 +59,24 @@
   [profile]
   (let [profile
         ;; convert email to lower case
-        (assoc profile :email (str/lower-case 
+        (assoc profile :email (str/lower-case
                                ;; use a empty string if nil
                                ;; to prevent NullPointerException
                                ;; on str/lower-case
                                (or (:email profile) "")))]
-    (if (str/blank? (:email profile))
+    (cond
+      (str/blank? (:email profile))
       ;; invalid: it's blank.
       (add-error profile (:profile-email-required core-error))
        ;; look for regex validation only if email is not blank
        ;; in order to avoid to add two errors for the same 
        ;; field.      
-      (if (re-matches #"^[a-z0-9.+_-]+@[a-z0-9]{2,}(\.[a-z0-9]{2,})+$"
-                      (:email profile))
-        ;; valid: matches regex pattern
-        profile
-        ;; invalid: didnt match regex pattern
-        (add-error profile (:profile-invalid-email core-error))))))
+      (re-matches #"^[a-z0-9.+_-]+@[a-z0-9]{2,}(\.[a-z0-9]{2,})+$"
+                  (:email profile))
+      ;; valid: matches regex pattern
+      profile
+      ;; invalid: didnt match regex pattern
+      :else (add-error profile (:profile-invalid-email core-error)))))
 
 (defn validate-profile-email-uniqueness
   "Check if e-mail for the given profile already exists
