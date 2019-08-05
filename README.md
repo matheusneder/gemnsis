@@ -252,7 +252,7 @@ Applies to:
 - [Create profile](#create-profile) - `POST /v1/profiles`
 - [Edit profile](#edit-profile) - `PUT /v1/profiles/:id`
 - [Profile details](#profile-details) - `GET /v1/profiles/:id`
-- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections/`
+- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
 - [Remove profile](#remove-profile) - `DELETE /v1/profiles/:id`
 - [Remove connection](#remove-connection) - `DELETE /v1/profiles/:id/connections/:connid`
 
@@ -271,9 +271,9 @@ Examples:
 - `/v1/profiles/?page=2&perpage=20`
 
 Applies to:
-- [List profiles](#list-profiles) - `GET /v1/profiles/`
-- [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions/`
-- [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections/`
+- [List profiles](#list-profiles) - `GET /v1/profiles`
+- [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions`
+- [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections`
 
 ### profile-list-page-out
 
@@ -354,9 +354,9 @@ Response for request `GET /v1/profiles/?page=2&perpage=5` with total of 50 profi
 ```
 
 Applies to:
-- [List profiles](#list-profiles) - `GET /v1/profiles/`
-- [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions/`
-- [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections/`
+- [List profiles](#list-profiles) - `GET /v1/profiles`
+- [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions`
+- [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections`
 
 ### profile-sintetic-out
 
@@ -383,7 +383,7 @@ Example
 ```
 
 Applies to:
-- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections/`
+- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
 
 ### core-error-coll
 
@@ -441,7 +441,7 @@ The table below enumerate the possibles [core-error-item](#core-error-item) whil
 | `profile-email-exists`   | Email already exists in network.            |
 
 Applies to:
-- [Create profile](#create-profile) - `POST /v1/profiles/`
+- [Create profile](#create-profile) - `POST /v1/profiles`
 - [Edit profile](#edit-profile) - `PUT /v1/profiles/:id`
 
 ### Profile not found
@@ -456,9 +456,9 @@ Applies to:
 
 - [Edit profile](#edit-profile) - `PUT /v1/profiles/:id`
 - [Profile details](#profile-details) - `GET /v1/profiles/:id`
-- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections/`
-- [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions/`
-- [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections/`
+- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
+- [Connection suggestions](#connection-suggestions) - `GET /v1/profiles/:id/suggestions`
+- [Profile connections](#profile-connections) - `GET /v1/profiles/:id/connections`
 - [Remove profile](#remove-profile) - `DELETE /v1/profiles/:id`
 - [Remove connection](#remove-connection) - `DELETE /v1/profiles/:id/connections/:connid`
 
@@ -475,7 +475,7 @@ The table below enumerate the possibles [core-error-item](#core-error-item) whil
 | `conn-to-limit-reached`        | Connecting to max number of conn. reached.  |
 
 Applies to:
-- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections/`
+- [Connect profiles](#connect-profiles) - `POST /v1/profiles/:id/connections`
 
 ### Network over capacity
 In order to network's healthiness garanties, total number of profiles is limited to 1000. The `network-over-capacity` error reason will be raised while trying to [create profile](#create-profile) and this limit was reached. A warnning log will be generated for this event in order to backend team get knowledge of the issue.
@@ -485,7 +485,7 @@ In order to network's healthiness garanties, total number of profiles is limited
 | `network-over-capacity` | Not accepting new profiles due capacity reasons. |
 
 Applies to:
-- [Create profile](#create-profile) - `POST /v1/profiles/`
+- [Create profile](#create-profile) - `POST /v1/profiles`
 
 ## Configuration
 
