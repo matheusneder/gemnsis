@@ -100,7 +100,7 @@
       validate-profile-name
       validate-profile-email))
 
-(def network-capacity-max-profiles 1000)
+(def network-capacity-max-profiles 10000)
 
 (defn validate-network-capacity
   "Validate if network capacity support a new profile."
@@ -175,7 +175,7 @@
              ;; transaction scope.
              distinct)))
 
-(def profile-max-connections 100)
+(def profile-max-connections 1000)
 
 (defn connecting-check-preconditions
   "Check precodintions to connect profile1 and profile2:

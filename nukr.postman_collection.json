@@ -29,25 +29,8 @@
 						"v1",
 						"profiles"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "List profiles",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/v1/profiles",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"v1",
-						"profiles"
-					]
-				}
+				},
+				"description": "Create a new profile."
 			},
 			"response": []
 		},
@@ -79,10 +62,11 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
+							"value": "687940fd-bc71-4824-b3fe-12d4ccdd9322"
 						}
 					]
-				}
+				},
+				"description": "Edit an existing profile."
 			},
 			"response": []
 		},
@@ -104,10 +88,42 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
+							"value": "687940fd-bc71-4824-b3fe-12d4ccdd9322"
 						}
 					]
-				}
+				},
+				"description": "Get the profile details for a given profile id (on route)."
+			},
+			"response": []
+		},
+		{
+			"name": "List profiles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v1/profiles?",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"profiles"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "perpage",
+							"value": "10",
+							"disabled": true
+						}
+					]
+				},
+				"description": "List profiles on network."
 			},
 			"response": []
 		},
@@ -124,7 +140,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"id\": \"b40c410b-f4b4-4800-b1b2-3c3d39446c23\"}"
+					"raw": "{\"id\": \"cc68b2f3-6dad-4696-97b5-3521135c6f19\"}"
 				},
 				"url": {
 					"raw": "{{baseUrl}}/v1/profiles/:id/connections",
@@ -140,10 +156,11 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "bf524e01-0fa0-47f1-ada9-c53f4b5f4669"
+							"value": "687940fd-bc71-4824-b3fe-12d4ccdd9322"
 						}
 					]
-				}
+				},
+				"description": "Connect a profile (from profile id on route) to another profile provided on body (json)."
 			},
 			"response": []
 		},
@@ -178,10 +195,11 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "b40c410b-f4b4-4800-b1b2-3c3d39446c23"
+							"value": "cc68b2f3-6dad-4696-97b5-3521135c6f19"
 						}
 					]
-				}
+				},
+				"description": "List connections for a given profile id (on route)."
 			},
 			"response": []
 		},
@@ -216,10 +234,11 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "b40c410b-f4b4-4800-b1b2-3c3d39446c23"
+							"value": "cc68b2f3-6dad-4696-97b5-3521135c6f19"
 						}
 					]
-				}
+				},
+				"description": "Generate a list of new connection suggestions for a given profile id (on route)."
 			},
 			"response": []
 		},
@@ -267,7 +286,7 @@
 	],
 	"variable": [
 		{
-			"id": "cd6430ff-57b2-4ed6-bf42-508351b62b31",
+			"id": "62ba5b08-f1a8-4eab-b82b-adfeb0df5ef9",
 			"key": "baseUrl",
 			"value": "http://localhost:8080",
 			"type": "string"
