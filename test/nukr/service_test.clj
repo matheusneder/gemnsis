@@ -42,7 +42,7 @@
 
 (deftest post-profiles-test
   (testing "POST /v1/profiles"
-    (database/reset)
+    (database/clear!)
     (let [result (response 
                   :post 
                   "/v1/profiles"
@@ -55,7 +55,7 @@
 
 (deftest post-profiles-invalid-model-test
   (testing "POST /v1/profiles"
-    (database/reset)
+    (database/clear!)
     (let [result (response
                   :post
                   "/v1/profiles"
@@ -88,7 +88,7 @@
 
 (deftest put-profiles-id-test
   (testing "PUT /v1/profiles/:id"
-    (database/reset)
+    (database/clear!)
     (let [profile-id 
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           result (response
@@ -103,7 +103,7 @@
 
 (deftest put-profiles-id-invalid-model-test
   (testing "PUT /v1/profiles/:id"
-    (database/reset)
+    (database/clear!)
     (let [profile-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           result (response
@@ -124,7 +124,7 @@
 
 (deftest get-profiles-id-test
   (testing "GET /v1/profiles/:id"
-    (database/reset)
+    (database/clear!)
     (let [profile-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           result (response
@@ -138,7 +138,7 @@
 
 (deftest get-profiles-id-not-foundtest
   (testing "GET /v1/profiles/:id"
-    (database/reset)
+    (database/clear!)
     (let [profile-id (logic/uuid)
           result (response
                   :get
@@ -153,7 +153,7 @@
 
 (deftest post-profiles-id-connections-test
   (testing "POST /v1/profiles/:id/connections"
-    (database/reset)
+    (database/clear!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id
@@ -170,7 +170,7 @@
 
 (deftest get-profiles-id-suggestions-test
   (testing "GET /v1/profiles/:id/suggestions"
-    (database/reset)
+    (database/clear!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id
@@ -188,7 +188,7 @@
 
 (deftest get-profiles-id-connections-test
   (testing "GET /v1/profiles/:id/connections"
-    (database/reset)
+    (database/clear!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id

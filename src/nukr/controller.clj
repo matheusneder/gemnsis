@@ -247,7 +247,7 @@
 
 (defn reset-database
   []
-  (database/reset))
+  (database/clear!))
 
 (defn dump-database 
   []

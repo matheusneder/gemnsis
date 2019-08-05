@@ -2,7 +2,7 @@
 
 (defonce database (atom {}))
 
-(defn reset []
+(defn clear! []
   (reset! database nil))
 
 (defn save-profile!

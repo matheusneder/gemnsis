@@ -7,7 +7,7 @@
 
 (deftest add-profile!-test
   (testing "controller/add-profile!"
-    (database/reset)
+    (database/clear!)
     (let [result
           (controller/add-profile! {:name "Foo"
                                     :email "foo@bar.com"})]
@@ -17,7 +17,7 @@
 
 (deftest update-profile!-test
   (testing "controller/update-profile!"
-    (database/reset)
+    (database/clear!)
     (let [result
           (controller/update-profile!
            (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
@@ -28,7 +28,7 @@
 
 (deftest connect-profiles!-test
   (testing "controller/connect-profiles!"
-    (database/reset)
+    (database/clear!)
     (let [result
           (controller/connect-profiles!
            (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
@@ -47,7 +47,7 @@
 
 (deftest get-suggestions-test
   (testing "controller/get-suggestions"
-    (database/reset)
+    (database/clear!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id
@@ -59,7 +59,7 @@
 
 (deftest get-profile-connections-test
   (testing "controller/get-profile-connections"
-    (database/reset)
+    (database/clear!)
     (let [profile1-id
           (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"}))
           profile2-id
@@ -73,7 +73,7 @@
 
 (deftest get-profile-details-test
   (testing "controller/get-profile-details"
-    (database/reset)
+    (database/clear!)
     (let [result 
           (controller/get-profile-details 
            (:id (controller/add-profile! {:name "Foo" :email "foo@bar.com"})))]
