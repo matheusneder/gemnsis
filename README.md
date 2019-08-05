@@ -4,7 +4,7 @@
 
 ## Build, run and tests
 
-Nukr was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was created based on [pedestal service template](https://github.com/pedestal/pedestal/tree/master/service-template). To run tasks, at command line, `cd` to nukr root directory then:
+Nukr was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was based on [pedestal service template](https://github.com/pedestal/pedestal/tree/master/service-template). To run tasks, at command line, `cd` to nukr root directory then:
 
 ### Run tests
 
