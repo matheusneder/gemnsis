@@ -4,7 +4,7 @@ Gemnsis is a prototype service that provides a REST API where we can simulate co
 
 ## Build, run and tests
 
-Gemnsis was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was based on [pedestal service template](https://github.com/pedestal/pedestal/tree/master/service-template). To run tasks, at command line, `cd` to gemnsis root directory then:
+Gemnsis was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was based on [pedestal service template](https://github.com/pedestal/pedestal). To run tasks, at command line, `cd` to gemnsis root directory then:
 
 ### Run tests
 
