@@ -1,4 +1,4 @@
-(ns nukr.service
+(ns gemnsis.service
   (:require
    [io.pedestal.http :as http]
    [io.pedestal.http.route :as route]
@@ -7,8 +7,8 @@
    [io.pedestal.log :as log]
    [io.pedestal.interceptor.error :as error-int]
    [clojure.data.json :as json]
-   [nukr.controller :as controller]
-   [nukr.test-data :as test-data]))
+   [gemnsis.controller :as controller]
+   [gemnsis.test-data :as test-data]))
 
 ;; Helpers 
 

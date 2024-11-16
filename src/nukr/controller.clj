@@ -1,9 +1,9 @@
-(ns nukr.controller
+(ns gemnsis.controller
   (:require 
    [io.pedestal.log :as log]
-   [nukr.database :as database]
-   [nukr.logic :as logic]
-   [nukr.components :as components]))
+   [gemnsis.database :as database]
+   [gemnsis.logic :as logic]
+   [gemnsis.components :as components]))
 
 ;; Output models helpers
 

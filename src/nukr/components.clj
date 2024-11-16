@@ -1,4 +1,4 @@
-(ns nukr.components
+(ns gemnsis.components
   (:require 
    [clojure.math.numeric-tower :as math]))
 

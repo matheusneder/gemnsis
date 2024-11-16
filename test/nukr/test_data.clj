@@ -1,7 +1,7 @@
-(ns nukr.test-data
+(ns gemnsis.test-data
   (:require 
    [clojure.test :refer :all]
-   [nukr.controller :as controller]))
+   [gemnsis.controller :as controller]))
 
 (defn build-sample-network
   []
@@ -9,203 +9,203 @@
   ;; names taken from https://www.randomlists.com/
   (let [jon-bentley (controller/add-profile!
                      {:name "Jon Bentley"
-                      :email "jon.bentley@nukr.com"
+                      :email "jon.bentley@gemnsis.com"
                       :visible false})
         zaria-wise (controller/add-profile!
                     {:name "Zaria Wise"
-                     :email "zaria.wise@nukr.com"
+                     :email "zaria.wise@gemnsis.com"
                      :visible true})
         cadence-goodman (controller/add-profile!
                          {:name "Cadence Goodman"
-                          :email "cadence.goodman@nukr.com"
+                          :email "cadence.goodman@gemnsis.com"
                           :visible false})
         hayden-odom (controller/add-profile!
                      {:name "Hayden Odom"
-                      :email "hayden.odom@nukr.com"
+                      :email "hayden.odom@gemnsis.com"
                       :visible true})
         jocelyn-larson (controller/add-profile!
                         {:name "Jocelyn Larson"
-                         :email "jocelyn.larson@nukr.com"
+                         :email "jocelyn.larson@gemnsis.com"
                          :visible true})
         tyshawn-diaz (controller/add-profile!
                       {:name "Tyshawn Diaz"
-                       :email "tyshawn.diaz@nukr.com"
+                       :email "tyshawn.diaz@gemnsis.com"
                        :visible true})
         luz-richardson (controller/add-profile!
                         {:name "Luz Richardson"
-                         :email "luz.richardson@nukr.com"
+                         :email "luz.richardson@gemnsis.com"
                          :visible true})
         leticia-clements (controller/add-profile!
                           {:name "Leticia Clements"
-                           :email "leticia.clements@nukr.com"
+                           :email "leticia.clements@gemnsis.com"
                            :visible true})
         ben-patterson (controller/add-profile!
                        {:name "Ben Patterson"
-                        :email "ben.patterson@nukr.com"
+                        :email "ben.patterson@gemnsis.com"
                         :visible true})
         rodolfo-bird (controller/add-profile!
                       {:name "Rodolfo Bird"
-                       :email "rodolfo.bird@nukr.com"
+                       :email "rodolfo.bird@gemnsis.com"
                        :visible true})
         kendra-heath (controller/add-profile!
                       {:name "Kendra Heath"
-                       :email "kendra.heath@nukr.com"
+                       :email "kendra.heath@gemnsis.com"
                        :visible true})
         cheyanne-mccullough (controller/add-profile!
                              {:name "Cheyanne Mccullough"
-                              :email "cheyanne.mccullough@nukr.com"
+                              :email "cheyanne.mccullough@gemnsis.com"
                               :visible true})
         rhianna-grant (controller/add-profile!
                        {:name "Rhianna Grant"
-                        :email "rhianna.grant@nukr.com"
+                        :email "rhianna.grant@gemnsis.com"
                         :visible true})
         sadie-hunt (controller/add-profile!
                     {:name "Sadie Hunt"
-                     :email "sadie.hunt@nukr.com"
+                     :email "sadie.hunt@gemnsis.com"
                      :visible true})
         riya-maynard (controller/add-profile!
                       {:name "Riya Maynard"
-                       :email "riya.maynard@nukr.com"
+                       :email "riya.maynard@gemnsis.com"
                        :visible true})
         emilio-whitaker (controller/add-profile!
                          {:name "Emilio Whitaker"
-                          :email "emilio.whitaker@nukr.com"
+                          :email "emilio.whitaker@gemnsis.com"
                           :visible true})
         anton-hardy (controller/add-profile!
                      {:name "Anton Hardy"
-                      :email "anton.hardy@nukr.com"
+                      :email "anton.hardy@gemnsis.com"
                       :visible false})
         luna-cervantes (controller/add-profile!
                         {:name "Luna Cervantes"
-                         :email "luna.cervantes@nukr.com"
+                         :email "luna.cervantes@gemnsis.com"
                          :visible true})
         terry-thompson (controller/add-profile!
                         {:name "Terry Thompson"
-                         :email "terry.thompson@nukr.com"
+                         :email "terry.thompson@gemnsis.com"
                          :visible true})
         griffin-valentine (controller/add-profile!
                            {:name "Griffin Valentine"
-                            :email "griffin.valentine@nukr.com"
+                            :email "griffin.valentine@gemnsis.com"
                             :visible true})
         karen-robles (controller/add-profile!
                       {:name "Karen Robles"
-                       :email "karen.robles@nukr.com"
+                       :email "karen.robles@gemnsis.com"
                        :visible true})
         jack-velasquez (controller/add-profile!
                         {:name "Jack Velasquez"
-                         :email "jack.velasquez@nukr.com"
+                         :email "jack.velasquez@gemnsis.com"
                          :visible true})
         aidan-carey (controller/add-profile!
                      {:name "Aidan Carey"
-                      :email "aidan.carey@nukr.com"
+                      :email "aidan.carey@gemnsis.com"
                       :visible true})
         gracelyn-turner (controller/add-profile!
                          {:name "Gracelyn Turner"
-                          :email "gracelyn.turner@nukr.com"
+                          :email "gracelyn.turner@gemnsis.com"
                           :visible false})
         talia-benson (controller/add-profile!
                       {:name "Talia Benson"
-                       :email "talia.benson@nukr.com"
+                       :email "talia.benson@gemnsis.com"
                        :visible false})
         darnell-blake (controller/add-profile!
                        {:name "Darnell Blake"
-                        :email "darnell.blake@nukr.com"
+                        :email "darnell.blake@gemnsis.com"
                         :visible false})
         delaney-greer (controller/add-profile!
                        {:name "Delaney Greer"
-                        :email "delaney.greer@nukr.com"
+                        :email "delaney.greer@gemnsis.com"
                         :visible true})
         noe-burton (controller/add-profile!
                     {:name "Noe Burton"
-                     :email "noe.burton@nukr.com"
+                     :email "noe.burton@gemnsis.com"
                      :visible true})
         brett-goodwin (controller/add-profile!
                        {:name "Brett Goodwin"
-                        :email "brett.goodwin@nukr.com"
+                        :email "brett.goodwin@gemnsis.com"
                         :visible false})
         melvin-aguilar (controller/add-profile!
                         {:name "Melvin Aguilar"
-                         :email "melvin.aguilar@nukr.com"
+                         :email "melvin.aguilar@gemnsis.com"
                          :visible true})
         rylan-mooney (controller/add-profile!
                       {:name "Rylan Mooney"
-                       :email "rylan.mooney@nukr.com"
+                       :email "rylan.mooney@gemnsis.com"
                        :visible true})
         kaylin-fitzpatrick (controller/add-profile!
                             {:name "Kaylin Fitzpatrick"
-                             :email "kaylin.fitzpatrick@nukr.com"
+                             :email "kaylin.fitzpatrick@gemnsis.com"
                              :visible true})
         malcolm-zhang (controller/add-profile!
                        {:name "Malcolm Zhang"
-                        :email "malcolm.zhang@nukr.com"
+                        :email "malcolm.zhang@gemnsis.com"
                         :visible false})
         alexis-bush (controller/add-profile!
                      {:name "Alexis Bush"
-                      :email "alexis.bush@nukr.com"
+                      :email "alexis.bush@gemnsis.com"
                       :visible true})
         zayne-clements (controller/add-profile!
                         {:name "Zayne Clements"
-                         :email "zayne.clements@nukr.com"
+                         :email "zayne.clements@gemnsis.com"
                          :visible false})
         emiliano-alvarado (controller/add-profile!
                            {:name "Emiliano Alvarado"
-                            :email "emiliano.alvarado@nukr.com"
+                            :email "emiliano.alvarado@gemnsis.com"
                             :visible true})
         brody-garrett (controller/add-profile!
                        {:name "Brody Garrett"
-                        :email "brody.garrett@nukr.com"
+                        :email "brody.garrett@gemnsis.com"
                         :visible false})
         paisley-rollins (controller/add-profile!
                          {:name "Paisley Rollins"
-                          :email "paisley.rollins@nukr.com"
+                          :email "paisley.rollins@gemnsis.com"
                           :visible true})
         alden-massey (controller/add-profile!
                       {:name "Alden Massey"
-                       :email "alden.massey@nukr.com"
+                       :email "alden.massey@gemnsis.com"
                        :visible true})
         brodie-gilmore (controller/add-profile!
                         {:name "Brodie Gilmore"
-                         :email "brodie.gilmore@nukr.com"
+                         :email "brodie.gilmore@gemnsis.com"
                          :visible true})
         kaydence-davidson (controller/add-profile!
                            {:name "Kaydence Davidson"
-                            :email "kaydence.davidson@nukr.com"
+                            :email "kaydence.davidson@gemnsis.com"
                             :visible true})
         lennon-mason (controller/add-profile!
                       {:name "Lennon Mason"
-                       :email "lennon.mason@nukr.com"
+                       :email "lennon.mason@gemnsis.com"
                        :visible false})
         madisyn-braun (controller/add-profile!
                        {:name "Madisyn Braun"
-                        :email "madisyn.braun@nukr.com"
+                        :email "madisyn.braun@gemnsis.com"
                         :visible false})
         ella-tyler (controller/add-profile!
                     {:name "Ella Tyler"
-                     :email "ella.tyler@nukr.com"
+                     :email "ella.tyler@gemnsis.com"
                      :visible false})
         paul-moran (controller/add-profile!
                     {:name "Paul Moran"
-                     :email "paul.moran@nukr.com"
+                     :email "paul.moran@gemnsis.com"
                      :visible false})
         griffin-cervantes (controller/add-profile!
                            {:name "Griffin Cervantes"
-                            :email "griffin.cervantes@nukr.com"
+                            :email "griffin.cervantes@gemnsis.com"
                             :visible false})
         maliyah-wilcox (controller/add-profile!
                         {:name "Maliyah Wilcox"
-                         :email "maliyah.wilcox@nukr.com"
+                         :email "maliyah.wilcox@gemnsis.com"
                          :visible false})
         tristen-joyce (controller/add-profile!
                        {:name "Tristen Joyce"
-                        :email "tristen.joyce@nukr.com"
+                        :email "tristen.joyce@gemnsis.com"
                         :visible true})
         rhett-shepard (controller/add-profile!
                        {:name "Rhett Shepard"
-                        :email "rhett.shepard@nukr.com"
+                        :email "rhett.shepard@gemnsis.com"
                         :visible true})
         shelby-austin (controller/add-profile!
                        {:name "Shelby Austin"
-                        :email "shelby.austin@nukr.com"
+                        :email "shelby.austin@gemnsis.com"
                         :visible true})]
     (controller/connect-profiles! (:id jon-bentley) (:id gracelyn-turner))
     (controller/connect-profiles! (:id jon-bentley) (:id darnell-blake))

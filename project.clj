@@ -1,5 +1,5 @@
-(defproject nukr "0.0.1-SNAPSHOT"
-  :description "Nukr, a new social media product by Nu Everything S/A."
+(defproject gemnsis "0.0.1-SNAPSHOT"
+  :description "Gemnsis, a new social media product by Nu Everything S/A."
   ;:url "http://example.com/FIXME"
   ;:license {:name "Eclipse Public License"
   ;          :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -16,7 +16,7 @@
                  [org.clojure/tools.logging "0.5.0"]]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "nukr.server/run-dev"]}
+  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "gemnsis.server/run-dev"]}
                    :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]]}
-             :uberjar {:aot [nukr.server]}}
-  :main ^{:skip-aot true} nukr.server)
+             :uberjar {:aot [gemnsis.server]}}
+  :main ^{:skip-aot true} gemnsis.server)

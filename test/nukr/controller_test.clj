@@ -1,7 +1,7 @@
-(ns nukr.controller-test
+(ns gemnsis.controller-test
   (:require 
    [clojure.test :refer :all]
-   [nukr.controller :as controller]
+   [gemnsis.controller :as controller]
    [clojure.tools.logging :as log]))
 
 (deftest add-profile!-test

@@ -13,7 +13,7 @@
 
     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
       <!-- rollover daily -->
-      <fileNamePattern>logs/nukr-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <fileNamePattern>logs/gemnsis-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
       <!-- or whenever the file size reaches 64 MB -->
       <maxFileSize>64 MB</maxFileSize>
     </rollingPolicy>
@@ -43,7 +43,7 @@
   </root>
 
   <!-- For loggers in the these namespaces, log at all levels. -->
-  <logger name="nukr" level="ALL" />
+  <logger name="gemnsis" level="ALL" />
   <!-- To log pedestal internals, enable this and change ThresholdFilter to DEBUG
     <logger name="io.pedestal" level="ALL" />
   -->

@@ -1,22 +1,22 @@
-# Nukr
+# Gemnsis
 
-Nukr is a prototype service that provides a REST API where we can simulate connections between people, and explore how we would offer new connection suggestions.
+Gemnsis is a prototype service that provides a REST API where we can simulate connections between people, and explore how we would offer new connection suggestions.
 
 ## Build, run and tests
 
-Nukr was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was based on [pedestal service template](https://github.com/pedestal/pedestal/tree/master/service-template). To run tasks, at command line, `cd` to nukr root directory then:
+Gemnsis was written in [Clojure](https://clojure.org) and it uses [Leiningen](https://leiningen.org/) to support build and tests tasks. The project was based on [pedestal service template](https://github.com/pedestal/pedestal/tree/master/service-template). To run tasks, at command line, `cd` to gemnsis root directory then:
 
 ### Run tests
 
 	lein test
 	
-### Run nukr REST API
+### Run gemnsis REST API
 
 	lein run
 	
-Web application will listen to 8080 port. If this port is not available, edit [src/nukr/service.clj](src/nukr/service.clj) (service configuration section close to end of file) in order to change it.
+Web application will listen to 8080 port. If this port is not available, edit [src/gemnsis/service.clj](src/gemnsis/service.clj) (service configuration section close to end of file) in order to change it.
 
-REST API routes are described in depth at the [REST API Routes](#rest-api-routes) section. You may use [nukr.postman_collection.json](nukr.postman_collection.json) to bootstrap [postman](https://www.getpostman.com/) pre-configurated to nukr REST API routes.
+REST API routes are described in depth at the [REST API Routes](#rest-api-routes) section. You may use [gemnsis.postman_collection.json](gemnsis.postman_collection.json) to bootstrap [postman](https://www.getpostman.com/) pre-configurated to gemnsis REST API routes.
 
 In order to quickly get fun with REST API, you may invoke the [build sample network](#build-sample-network) to get it populate with some profiles and connections.
 
@@ -28,13 +28,13 @@ In order to quickly get fun with REST API, you may invoke the [build sample netw
 
 Build uberjar described at [build standalone uberjar](#build-standalone-uberjar) step above then:
 
-	sudo docker build -t nukr .
+	sudo docker build -t gemnsis .
 	
 ### Run docker container
 
 After executed [build standalone uberjar](#build-standalone-uberjar) and [build docker image](#build-docker-image) steps:
 
-	sudo docker run -p 8080:8080 nukr
+	sudo docker run -p 8080:8080 gemnsis
 
 ## REST API routes
 
@@ -207,7 +207,7 @@ Example:
 ```json
 {
     "name": "Foo Bar",
-    "email": "foo.bar@nukr.com",
+    "email": "foo.bar@gemnsis.com",
     "visible": true
 }
 ```
@@ -489,7 +489,7 @@ Applies to:
 
 ## Uncaught exceptions/errors handling
 
-If an unforeseen error happens, nukr will generate an identifier (uuid), log the error/exception linked to it and expose the generated id on response in order to provide a chance to track the error for a specific request, on logs.
+If an unforeseen error happens, gemnsis will generate an identifier (uuid), log the error/exception linked to it and expose the generated id on response in order to provide a chance to track the error for a specific request, on logs.
 
 Response status code will be 500 (internal server error). Response model is:
 

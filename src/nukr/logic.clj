@@ -1,4 +1,4 @@
-(ns nukr.logic
+(ns gemnsis.logic
   (:require 
    [clojure.string :as str]))
 

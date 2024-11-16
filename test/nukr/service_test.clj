@@ -1,12 +1,12 @@
-(ns nukr.service-test
+(ns gemnsis.service-test
   (:require
    [clojure.test :refer :all]
    [io.pedestal.test :refer :all]
    [io.pedestal.http :as bootstrap]
    [clojure.data.json :as json]
-   [nukr.service :as service]
+   [gemnsis.service :as service]
    [clojure.tools.logging :as log]
-   [nukr.controller :as controller]))
+   [gemnsis.controller :as controller]))
 
 (def service
   (::bootstrap/service-fn (bootstrap/create-servlet service/service)))

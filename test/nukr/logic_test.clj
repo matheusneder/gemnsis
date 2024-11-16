@@ -1,7 +1,7 @@
-(ns nukr.logic-test
+(ns gemnsis.logic-test
   (:require 
    [clojure.test :refer :all]
-   [nukr.logic :as logic]
+   [gemnsis.logic :as logic]
    [clojure.tools.logging :as log]))
 
 (deftest connect-single-test
