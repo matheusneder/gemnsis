@@ -1,5 +1,5 @@
 (defproject gemnsis "0.0.1-SNAPSHOT"
-  :description "Gemnsis, a new social media product by Nu Everything S/A."
+  :description "Gemnsis, a new social media product by Gemnsis."
   ;:url "http://example.com/FIXME"
   ;:license {:name "Eclipse Public License"
   ;          :url "http://www.eclipse.org/legal/epl-v10.html"}

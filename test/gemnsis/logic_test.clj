@@ -6,7 +6,7 @@
 
 (deftest connect-single-test
   (testing "logic/connect-single"
-    (let [target-profile-model (logic/new-profile {:name "foo" :email "foo@nubank.com"})
+    (let [target-profile-model (logic/new-profile {:name "foo" :email "foo@gemnsis.xext"})
           profile-source-id "321"
           result (logic/connect-single target-profile-model profile-source-id)]
       (is (= profile-source-id (-> result :connections first))
@@ -78,9 +78,9 @@
 (deftest connect-test
   (testing "logic/connect"
     (let [profile1-model (logic/new-profile
-                          {:name "foo" :email "foo@nubank.com"})
+                          {:name "foo" :email "foo@gemnsis.xext"})
           profile2-model (logic/new-profile
-                          {:name "bar" :email "bar@nubank.com"})
+                          {:name "bar" :email "bar@gemnsis.xext"})
           profile1-id (:id profile1-model)
           profile2-id (:id profile2-model)
           network {:profiles {profile1-id profile1-model
